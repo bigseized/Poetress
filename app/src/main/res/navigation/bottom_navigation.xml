@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/swiper_main">
+
+    <fragment
+        android:id="@+id/profile_main"
+        android:name="com.example.poetress.ui.profile_main"
+        android:label="fragment_profile_main"
+        tools:layout="@layout/fragment_profile_main" />
+    <fragment
+        android:id="@+id/chat_main"
+        android:name="com.example.poetress.ui.chat_main"
+        android:label="fragment_chat_main"
+        tools:layout="@layout/fragment_chat_main" />
+    <fragment
+        android:id="@+id/swiper_main"
+        android:name="com.example.poetress.ui.swiper_main"
+        android:label="fragment_swiper_main"
+        tools:layout="@layout/fragment_swiper_main" />
+    <fragment
+        android:id="@+id/feed_main"
+        android:name="com.example.poetress.ui.feed_main"
+        android:label="fragment_feed_main"
+        tools:layout="@layout/fragment_feed_main" />
+    <fragment
+        android:id="@+id/create_main"
+        android:name="com.example.poetress.ui.create_main"
+        android:label="fragment_create_main"
+        tools:layout="@layout/fragment_create_main" />
+
+</navigation>

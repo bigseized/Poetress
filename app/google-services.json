@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "927619500105",
+    "project_id": "poetress-42489",
+    "storage_bucket": "poetress-42489.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927619500105:android:7ec35ddda6adac78a89798",
+        "android_client_info": {
+          "package_name": "com.example.poetress"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927619500105-tlai8pb29p3ddsc8if42lhiorgqv1c26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb59DRDDWKoCYQzu6n0Vb9_gowBG7I8Bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927619500105-tlai8pb29p3ddsc8if42lhiorgqv1c26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
