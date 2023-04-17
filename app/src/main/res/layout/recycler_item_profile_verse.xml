@@ -37,7 +37,7 @@
         android:maxLines="4"
         android:fontFamily="@font/monotypecorsiva"
         android:textColor="@color/black"
-        android:text="@string/maaykovsky"
+        android:text="@string/pushkin"
         android:textAlignment="center"
         android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"

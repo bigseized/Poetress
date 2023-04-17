@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/profile_main"
-        android:name="com.example.poetress.ui.profile_main"
+        android:name="com.example.poetress.ui.profile.profile_main"
         android:label="fragment_profile_main"
-        tools:layout="@layout/fragment_profile_main" />
+        tools:layout="@layout/fragment_profile_main"/>
     <fragment
         android:id="@+id/chat_main"
         android:name="com.example.poetress.ui.chat_main"
@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_chat_main" />
     <fragment
         android:id="@+id/swiper_main"
-        android:name="com.example.poetress.ui.swiper_main"
+        android:name="com.example.poetress.ui.swiper.swiper_main"
         android:label="fragment_swiper_main"
         tools:layout="@layout/fragment_swiper_main" />
     <fragment
@@ -27,8 +27,7 @@
         tools:layout="@layout/fragment_feed_main" />
     <fragment
         android:id="@+id/create_main"
-        android:name="com.example.poetress.ui.create_main"
+        android:name="com.example.poetress.ui.createFragment.create_main"
         android:label="fragment_create_main"
         tools:layout="@layout/fragment_create_main" />
-
 </navigation>

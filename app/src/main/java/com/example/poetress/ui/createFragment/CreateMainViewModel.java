@@ -1,4 +1,4 @@
-package com.example.poetress.ui;
+package com.example.poetress.ui.createFragment;
 
 import androidx.lifecycle.ViewModel;
 

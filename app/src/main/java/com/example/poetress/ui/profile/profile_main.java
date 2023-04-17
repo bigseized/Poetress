@@ -1,46 +1,50 @@
-package com.example.poetress.ui;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.ViewModelProvider;
+package com.example.poetress.ui.profile;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
 import com.example.poetress.databinding.FragmentProfileMainBinding;
+import com.example.poetress.ui.profile.RecyclerView.ProfileViewHolder;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class profile_main extends Fragment {
 
     private ProfileMainViewModel mViewModel;
     FirestoreRecyclerAdapter adapter;
+    TextView bd_title,bd_text;
     FirebaseAuth firebaseAuth;
     String User_UID;
+    View view;
+    ImageView settings;
     FragmentProfileMainBinding binding;
+
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView mFirestorelist;
     Bitmap bitmap;
-    Integer imHeight;
-    Integer inWidth;
+    Integer imHeight, inWidth;
+
     public static profile_main newInstance() {
         return new profile_main();
     }
@@ -53,7 +57,8 @@ public class profile_main extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentProfileMainBinding.inflate(inflater,container,false);
+        binding = FragmentProfileMainBinding.inflate(inflater, container, false);
+        settings = binding.settings;
 
         binding.profileRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -63,38 +68,58 @@ public class profile_main extends Fragment {
         mFirestorelist.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         mFirestorelist.setNestedScrollingEnabled(false);
+
         User_UID = firebaseAuth.getCurrentUser().getUid();
-        Query query = firebaseFirestore.collection("User_Data").document(User_UID).collection("User_Verses");
+        Query query = firebaseFirestore.collection("User_Data").document(User_UID).collection("User_Verses").orderBy("Date_Verse", Query.Direction.DESCENDING);
 
 
         FirestoreRecyclerOptions<ProfileVerse> options =
                 new FirestoreRecyclerOptions.Builder<ProfileVerse>()
                         .setQuery(query, ProfileVerse.class)
-                        .build();//нихуя не работает
+                        .build();
 
         adapter = new FirestoreRecyclerAdapter<ProfileVerse, ProfileViewHolder>(options) {
             @NonNull
             @Override
-            public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_profile_verse, parent,false);
+            public ProfileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_profile_verse, parent, false);
                 return new ProfileViewHolder(view);
             }
+
 
             @Override
             protected void onBindViewHolder(@NonNull ProfileViewHolder holder, int position, @NonNull ProfileVerse verse) {
                 //holder.ganre.setText(verse.getGenre_Verse());
                 holder.name.setText(verse.getAuthor());
                 holder.title.setText(verse.getName_Verse());
-                holder.text.setText(verse.getText_Verse().replaceAll("\\\\n","\n"));
+                holder.text.setText(verse.getText_Verse().replaceAll("\\\\n", "\n"));
+
+                holder.setOnClickListener(new ProfileViewHolder.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+                        bottomSheetDialog.setContentView(R.layout.bottom_dialog_profile_verse);
+                        bd_title = bottomSheetDialog.findViewById(R.id.bd_Title);
+                        bd_text = bottomSheetDialog.findViewById(R.id.bd_Text);
+                        bd_title.setText(verse.getName_Verse());
+                        bd_text.setText(verse.getText_Verse());
+                        bottomSheetDialog.show();
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
                 Log.d("my", "onBindViewHolder: successful added ");
             }
         };
-        
+
         mFirestorelist.setHasFixedSize(false);
         mFirestorelist.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFirestorelist.setAdapter(adapter);
 
-        
+
         return binding.getRoot();
     }
 
@@ -102,22 +127,17 @@ public class profile_main extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava);
-        bm = Bitmap.createScaledBitmap(bm,bm.getWidth()/4,bm.getHeight()/4,true);
+        bm = Bitmap.createScaledBitmap(bm, bm.getWidth() / 4, bm.getHeight() / 4, true);
         binding.imageView.setImageBitmap(bm);
-    }
-    class ProfileViewHolder extends RecyclerView.ViewHolder {
-        TextView name, title, text, ganre;
-        ConstraintLayout constraintItem;
 
-        public ProfileViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ganre = itemView.findViewById(R.id.text);
-            name = itemView.findViewById(R.id.text1);
-            title = itemView.findViewById(R.id.text2);
-            text = itemView.findViewById(R.id.text3);
-            constraintItem = itemView.findViewById(R.id.constraintItem);
-        }
+        settings.setOnClickListener(v -> {
+
+            Fragment navHostFragment = getParentFragment().getParentFragment();
+            NavHostFragment.findNavController(navHostFragment).navigate(R.id.action_mainFragment_to_SettingsFragment);
+        });
     }
+
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

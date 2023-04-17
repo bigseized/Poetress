@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
 
     <fragment
@@ -36,9 +37,22 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="com.example.poetress.ui.profile.Settings.SettingsFragment"
+        tools:layout="@layout/fragment_profile_settings"
+        android:label="Settings">
+        <action
+            android:id="@+id/action_Settings_to_Login"
+            app:destination="@id/loginFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.poetress.MainFragment"
-        android:label="MainFragment" />
-
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment"/>
+    </fragment>
 </navigation>

@@ -27,6 +27,7 @@
 
 
         <ImageView
+            android:id="@+id/settings"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:padding="4dp"

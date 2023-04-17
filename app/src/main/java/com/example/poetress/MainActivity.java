@@ -22,11 +22,5 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-//        FragmentContainerView fragment = findViewById(R.id.nav_host_fragment);
-//        BottomNavigationView navView = findViewById(R.id.nav_view);
-//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-//        NavigationUI.setupWithNavController(navView, navHostFragment.getNavController());
-//        navHostFragment.getNavController().navigate(R.id.action_loginFragment_to_new_graph);
     }
 }

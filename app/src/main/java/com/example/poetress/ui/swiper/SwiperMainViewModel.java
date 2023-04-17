@@ -1,4 +1,4 @@
-package com.example.poetress.ui;
+package com.example.poetress.ui.swiper;
 
 import androidx.lifecycle.ViewModel;
 

@@ -1,4 +1,4 @@
-package com.example.poetress.ui;
+package com.example.poetress.ui.profile;
 
 import androidx.lifecycle.ViewModel;
 
