@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="4dp">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageDialog"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/profile_avatar_view"
+        android:src="@drawable/test_ava"
+        app:shapeAppearance="@style/circular"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/receivedTextMessage"/>
+    <TextView
+        android:id="@+id/receivedTextMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/message_received"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:padding="14dp"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageDialog"
+        />
+    <TextView
+        android:id="@+id/textDateTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="@color/grey"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@id/receivedTextMessage"
+        app:layout_constraintTop_toBottomOf="@id/receivedTextMessage"/>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

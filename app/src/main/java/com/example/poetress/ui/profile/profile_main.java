@@ -2,14 +2,16 @@ package com.example.poetress.ui.profile;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,12 +24,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.poetress.R;
 import com.example.poetress.databinding.FragmentProfileMainBinding;
 import com.example.poetress.ui.profile.RecyclerView.ProfileViewHolder;
+import com.example.poetress.ui.sign_up_sign_in.UpdateDataFragment;
+import com.example.poetress.view_model.ProfileMainViewModel;
+import com.example.poetress.view_model.UpdateDataViewModel;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 public class profile_main extends Fragment {
 
@@ -39,6 +45,7 @@ public class profile_main extends Fragment {
     View view;
     ImageView settings;
     FragmentProfileMainBinding binding;
+    ProgressBar progressBarAva, progressBarVerse;
 
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView mFirestorelist;
@@ -52,13 +59,22 @@ public class profile_main extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mViewModel = new ViewModelProvider(this).get(ProfileMainViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileMainBinding.inflate(inflater, container, false);
         settings = binding.settings;
+
+        mViewModel.loadData();
+        mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
+            if (!data.getImage_Profile().isEmpty()){
+                Picasso.get().load(Uri.parse(data.getImage_Profile())).into(binding.imageView);
+            }
+            binding.text.setText(data.getName() + " " + data.getSurname());
+            binding.text3.setText("Интересы: " + data.getInterests());
+        });
 
         binding.profileRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -93,7 +109,12 @@ public class profile_main extends Fragment {
                 holder.name.setText(verse.getAuthor());
                 holder.title.setText(verse.getName_Verse());
                 holder.text.setText(verse.getText_Verse().replaceAll("\\\\n", "\n"));
-
+                mViewModel.loadData();
+                mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
+                    if (!data.getImage_Profile().isEmpty()){
+                        Picasso.get().load(Uri.parse(data.getImage_Profile())).into(holder.image);
+                    }
+                });
                 holder.setOnClickListener(new ProfileViewHolder.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -126,9 +147,9 @@ public class profile_main extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava);
-        bm = Bitmap.createScaledBitmap(bm, bm.getWidth() / 4, bm.getHeight() / 4, true);
-        binding.imageView.setImageBitmap(bm);
+//        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava);
+//        bm = Bitmap.createScaledBitmap(bm, bm.getWidth() / 4, bm.getHeight() / 4, true);
+//        binding.imageView.setImageBitmap(bm);
 
         settings.setOnClickListener(v -> {
 

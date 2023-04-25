@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.poetress.ui.RegisterFragment"
+        android:name="com.example.poetress.ui.sign_up_sign_in.RegisterFragment"
         tools:layout="@layout/register_form"
         android:label="Register" >
         <action
@@ -23,12 +23,12 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.poetress.ui.LoginFragment"
+        android:name="com.example.poetress.ui.sign_up_sign_in.LoginFragment"
         tools:layout="@layout/login_form"
         android:label="Login" >
         <action
-            android:id="@+id/action_loginFragment_to_new_graph"
-            app:destination="@id/mainFragment"
+            android:id="@+id/action_loginFragment_to_info"
+            app:destination="@id/info"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
@@ -48,11 +48,52 @@
             app:destination="@id/loginFragment"/>
     </fragment>
     <fragment
+        android:id="@+id/SearchFragmentAuthors"
+        android:name="com.example.poetress.ui.feed.search.search_authors.SearchAuthorsFragment"
+        tools:layout="@layout/feed_search_fragment_authors"
+        android:label="Search_Authors"
+        app:popUpTo="@id/SearchFragmentAuthors"
+        app:popUpToInclusive="true">
+        <action
+            android:id="@+id/action_searchAutors_to_main"
+            app:destination="@id/mainFragment"/>
+        <action
+            android:id="@+id/action_searchAuthor_to_searchVerses"
+            app:destination="@id/SearchFragmentVerces"/>
+    </fragment>
+    <fragment
+        android:id="@+id/SearchFragmentVerces"
+        android:name="com.example.poetress.ui.feed.search.search_verses.SearchVersesFragment"
+        tools:layout="@layout/feed_search_fragment_verses"
+        android:label="Search_Verses"
+        app:popUpTo="@id/SearchFragmentVerces"
+        app:popUpToInclusive="true">
+        <action
+            android:id="@+id/action_searchVerses_to_main"
+            app:destination="@id/loginFragment"/>
+        <action
+            android:id="@+id/action_searchVerses_to_searchAuthors"
+            app:destination="@id/SearchFragmentAuthors"/>
+    </fragment>
+    <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.poetress.MainFragment"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment"/>
+        <action
+            android:id="@+id/action_mainFragment_to_SearchFragment"
+            app:destination="@id/SearchFragmentAuthors"/>
+    </fragment>
+    <fragment
+        android:id="@+id/info"
+        android:name="com.example.poetress.ui.sign_up_sign_in.UpdateDataFragment"
+        android:label="InfoFragment">
+        <action
+            android:id="@+id/action_updateInfoFragment_to_new_graph"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

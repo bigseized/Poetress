@@ -2,6 +2,7 @@ package com.example.poetress.ui.profile.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.example.poetress.R;
 
 public class ProfileViewHolder extends RecyclerView.ViewHolder {
     public TextView name, title, text, ganre;
+    public ImageView image;
     public ConstraintLayout constraintItem;
 
     public ProfileViewHolder(@NonNull View itemView) {
@@ -38,6 +40,7 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
         name = itemView.findViewById(R.id.text1);
         title = itemView.findViewById(R.id.text2);
         text = itemView.findViewById(R.id.text3);
+        image = itemView.findViewById(R.id.imageView1);
         constraintItem = itemView.findViewById(R.id.constraintItem);
     }
     private ClickListener mClickListener;

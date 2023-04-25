@@ -7,28 +7,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.widget.Toast;
 
-import com.example.poetress.R;
-import com.example.poetress.databinding.FragmentProfileMainBinding;
 import com.example.poetress.databinding.FragmentSwiperMainBinding;
 import com.example.poetress.ui.swiper.cardstack.CardStackAdapter;
-import com.example.poetress.ui.swiper.cardstack.CardStackItem;
+import com.example.poetress.view_model.SwiperMainViewModel;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
-import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
-import com.yuyakaido.android.cardstackview.Direction;
-import com.yuyakaido.android.cardstackview.StackFrom;
-import com.yuyakaido.android.cardstackview.SwipeableMethod;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class swiper_main extends Fragment {
 
@@ -47,77 +35,79 @@ public class swiper_main extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private List<CardStackItem> addList() { //Меняем ArrayList на нужную Collection из Firestore
-        List<CardStackItem> items = new ArrayList<>();
-        items.add(new CardStackItem("Test1","Something..."));
-        items.add(new CardStackItem("Test2","Something..."));
-        items.add(new CardStackItem("Test3","Something..."));
-        items.add(new CardStackItem("Test4","Something..."));
-        items.add(new CardStackItem("Test5","Something..."));
-        return items;
-    }
+//    private List<CardStackItem> addList() { //Меняем ArrayList на нужную Collection из Firestore
+//        List<CardStackItem> items = new ArrayList<>();
+//        items.add(new CardStackItem("Test1","Something..."));
+//        items.add(new CardStackItem("Test2","Something..."));
+//        items.add(new CardStackItem("Test3","Something..."));
+//        items.add(new CardStackItem("Test4","Something..."));
+//        items.add(new CardStackItem("Test5","Something..."));
+//        return items;
+//    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentSwiperMainBinding.inflate(inflater, container, false);
-        cardStackView = binding.cardStackHolder;
-        manager = new CardStackLayoutManager(getActivity().getApplicationContext(), new CardStackListener() {
-            @Override
-            public void onCardDragging(Direction direction, float ratio) {
-
-            }
-
-            @Override
-            public void onCardSwiped(Direction direction) { //обрабатываем свайпы в разные стороны
-                switch (direction){
-                    case Top:
-                        Toast.makeText(getActivity(),"Direction: Top", Toast.LENGTH_SHORT);
-                        break;
-                    case Right:
-                        Toast.makeText(getActivity(),"Direction: Right", Toast.LENGTH_SHORT);
-                        break;
-                    case Left:
-                        Toast.makeText(getActivity(),"Direction: Left", Toast.LENGTH_SHORT);
-                        break;
-                }
-            }
-
-            @Override
-            public void onCardRewound() {
-
-            }
-
-            @Override
-            public void onCardCanceled() {
-
-            }
-
-            @Override
-            public void onCardAppeared(View view, int position) {
-
-
-            }
-
-            @Override
-            public void onCardDisappeared(View view, int position) {
-
-            }
-        });
-        manager.setStackFrom(StackFrom.None);
-        manager.setVisibleCount(3);
-        manager.setTranslationInterval(8.0f);
-        manager.setScaleInterval(0.95f);
-        manager.setSwipeThreshold(0.3f);
-        manager.setMaxDegree(20.0f);
-        manager.setDirections(Direction.FREEDOM);
-        manager.setCanScrollHorizontal(true);
-        manager.setSwipeableMethod(SwipeableMethod.Manual);
-        manager.setOverlayInterpolator(new LinearInterpolator());
-        adapter = new CardStackAdapter(addList());
-        cardStackView.setLayoutManager(manager);
-        cardStackView.setAdapter(adapter);
-        cardStackView.setItemAnimator(new DefaultItemAnimator());
+//        cardStackView = binding.cardStackHolder;
+//        adapter = new CardStackAdapter(addList());
+//        manager = new CardStackLayoutManager(getActivity().getApplicationContext(), new CardStackListener() {
+//            @Override
+//            public void onCardDragging(Direction direction, float ratio) {
+//
+//            }
+//
+//            @Override
+//            public void onCardSwiped(Direction direction) { //обрабатываем свайпы в разные стороны
+//                switch (direction){
+//                    case Top:
+//                        Toast.makeText(getActivity(),"Direction: Top", Toast.LENGTH_SHORT);
+//                        break;
+//                    case Right:
+//                        Toast.makeText(getActivity(),"Direction: Right", Toast.LENGTH_SHORT);
+//                        break;
+//                    case Left:
+//                        Toast.makeText(getActivity(),"Direction: Left", Toast.LENGTH_SHORT);
+//                        break;
+//                    case Bottom:
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onCardRewound() {
+//
+//            }
+//
+//            @Override
+//            public void onCardCanceled() {
+//
+//            }
+//
+//            @Override
+//            public void onCardAppeared(View view, int position) {
+//
+//
+//            }
+//
+//            @Override
+//            public void onCardDisappeared(View view, int position) {
+//
+//            }
+//        });
+//        manager.setStackFrom(StackFrom.None);
+//        manager.setVisibleCount(3);
+//        manager.setTranslationInterval(8.0f);
+//        manager.setScaleInterval(0.95f);
+//        manager.setSwipeThreshold(0.3f);
+//        manager.setMaxDegree(20.0f);
+//        manager.setDirections(Direction.FREEDOM);
+//        manager.setCanScrollHorizontal(true);
+//        manager.setSwipeableMethod(SwipeableMethod.Manual);
+//        manager.setOverlayInterpolator(new LinearInterpolator());
+//        cardStackView.setLayoutManager(manager);
+//        cardStackView.setAdapter(adapter);
+//        cardStackView.setItemAnimator(new DefaultItemAnimator());
         return binding.getRoot();
     }
 

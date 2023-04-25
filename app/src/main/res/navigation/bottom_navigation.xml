@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_profile_main"/>
     <fragment
         android:id="@+id/chat_main"
-        android:name="com.example.poetress.ui.chat_main"
+        android:name="com.example.poetress.ui.chat.chat_main"
         android:label="fragment_chat_main"
         tools:layout="@layout/fragment_chat_main" />
     <fragment
@@ -22,12 +22,12 @@
         tools:layout="@layout/fragment_swiper_main" />
     <fragment
         android:id="@+id/feed_main"
-        android:name="com.example.poetress.ui.feed_main"
+        android:name="com.example.poetress.ui.feed.feed_main"
         android:label="fragment_feed_main"
         tools:layout="@layout/fragment_feed_main" />
     <fragment
         android:id="@+id/create_main"
-        android:name="com.example.poetress.ui.createFragment.create_main"
+        android:name="com.example.poetress.ui.create.create_main"
         android:label="fragment_create_main"
         tools:layout="@layout/fragment_create_main" />
 </navigation>

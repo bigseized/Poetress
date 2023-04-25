@@ -1,6 +1,5 @@
 package com.example.poetress.ui.swiper.cardstack;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
-import com.example.poetress.ui.createFragment.CategoryDialog.recycler_view_category_adapter;
-import com.yuyakaido.android.cardstackview.CardStackView;
 
 import java.util.List;
 

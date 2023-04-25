@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.feed.feed_main"
+    android:id="@+id/main_constraint"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <Space
+            android:id="@+id/topLogo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/FillYourProfile"
+            app:layout_constraintStart_toEndOf="@id/topLogo"
+            app:layout_constraintEnd_toStartOf="@id/spaceTop"
+            app:layout_constraintTop_toTopOf="@id/topLogo"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/topLogo"/>
+        <Space
+            android:id="@+id/spaceTop"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            android:background="@color/grey"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            app:layout_constraintTop_toBottomOf="@id/topNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/setImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="50dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/profile_avatar_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circular"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_user" />
+            <EditText
+                android:id="@+id/setNameUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/setImage"
+                android:layout_marginTop="50dp"
+                android:layout_marginHorizontal="18dp"
+                android:padding="8dp"
+                android:background="@drawable/layoutborder"
+                android:hint="@string/name"/>
+            <EditText
+                android:id="@+id/setSurnameUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/setNameUser"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="18dp"
+                android:padding="8dp"
+                android:background="@drawable/layoutborder"
+                android:hint="@string/surname"/>
+            <EditText
+                android:id="@+id/setInterestUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/setSurnameUser"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="18dp"
+                android:padding="8dp"
+                android:background="@drawable/layoutborder"
+                android:hint="@string/interests"/>
+            <Button
+                android:id="@+id/postForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Done"
+                android:background="@drawable/button_shape_sel"
+                app:layout_constraintTop_toBottomOf="@id/setInterestUser"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:padding="8dp"
+                android:paddingHorizontal="16dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textAllCaps="false"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

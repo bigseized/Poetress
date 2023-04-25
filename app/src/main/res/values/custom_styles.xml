@@ -5,4 +5,9 @@
             50%
         </item>
     </style>
+    <style name="rounded">
+        <item name="cornerSize">
+            10%
+        </item>
+    </style>
 </resources>

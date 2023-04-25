@@ -14,4 +14,13 @@
     <string name="Choose_category">Выберите категорию:</string>
     <string name="cancel">Отмена</string>
     <string name="Citizen_lyrics">Гражданская лирика</string>
+    <string name="verses">Произведения</string>
+    <string name="Authors">Авторы</string>
+    <string name="verses1">Произведения</string>
+    <string name="testTitle">Стихи о советском паспорте</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="interests">Ваши интересы</string>
+    <string name="Done">Готово</string>
+    <string name="FillYourProfile">Заполните свой профиль</string>
 </resources>

@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.poetress.R;
 import com.example.poetress.databinding.FragmentProfileSettingsBinding;
+import com.example.poetress.view_model.SettingsViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragment extends Fragment {

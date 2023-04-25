@@ -9,10 +9,12 @@
     app:layout_constraintStart_toStartOf="parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintHeight_default="wrap"
         app:layout_constraintWidth_default="spread"
