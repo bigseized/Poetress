@@ -1,4 +1,4 @@
-package com.example.poetress.data.data_sources;
+package com.example.poetress.data.types;
 
 import android.net.Uri;
 

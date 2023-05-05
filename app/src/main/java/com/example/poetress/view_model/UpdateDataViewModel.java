@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.poetress.data.data_sources.UserMainData;
+import com.example.poetress.data.types.UserMainData;
 import com.example.poetress.data.repositories.UserMainDataInteraction;
 
 

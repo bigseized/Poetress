@@ -1,7 +1,6 @@
 package com.example.poetress.ui.profile;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,11 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
+import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.databinding.FragmentProfileMainBinding;
 import com.example.poetress.ui.profile.RecyclerView.ProfileViewHolder;
-import com.example.poetress.ui.sign_up_sign_in.UpdateDataFragment;
 import com.example.poetress.view_model.ProfileMainViewModel;
-import com.example.poetress.view_model.UpdateDataViewModel;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -87,7 +85,6 @@ public class profile_main extends Fragment {
 
         User_UID = firebaseAuth.getCurrentUser().getUid();
         Query query = firebaseFirestore.collection("User_Data").document(User_UID).collection("User_Verses").orderBy("Date_Verse", Query.Direction.DESCENDING);
-
 
         FirestoreRecyclerOptions<ProfileVerse> options =
                 new FirestoreRecyclerOptions.Builder<ProfileVerse>()

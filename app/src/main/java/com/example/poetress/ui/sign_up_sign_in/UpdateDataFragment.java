@@ -70,17 +70,6 @@ public class UpdateDataFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel.loadData();
-        mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
-            if (data.getSurname().isEmpty() || data.getName().isEmpty()){
-                Toast.makeText(getActivity(),data.getName(),Toast.LENGTH_SHORT).show();
-                linearLayout.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
-            }
-            else{
-                NavHostFragment.findNavController(this).navigate(R.id.action_updateInfoFragment_to_new_graph);
-            }
-        });
         linearLayout.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         name = binding.setNameUser;

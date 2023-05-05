@@ -21,6 +21,7 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
     </fragment>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.poetress.ui.sign_up_sign_in.LoginFragment"
@@ -29,6 +30,11 @@
         <action
             android:id="@+id/action_loginFragment_to_info"
             app:destination="@id/info"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_new_graph"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
@@ -46,7 +52,11 @@
         <action
             android:id="@+id/action_Settings_to_Login"
             app:destination="@id/loginFragment"/>
+        <action
+            android:id="@+id/action_Settings_to_UpdateData"
+            app:destination="@id/info"/>
     </fragment>
+
     <fragment
         android:id="@+id/SearchFragmentAuthors"
         android:name="com.example.poetress.ui.feed.search.search_authors.SearchAuthorsFragment"
@@ -61,6 +71,7 @@
             android:id="@+id/action_searchAuthor_to_searchVerses"
             app:destination="@id/SearchFragmentVerces"/>
     </fragment>
+
     <fragment
         android:id="@+id/SearchFragmentVerces"
         android:name="com.example.poetress.ui.feed.search.search_verses.SearchVersesFragment"
@@ -75,17 +86,27 @@
             android:id="@+id/action_searchVerses_to_searchAuthors"
             app:destination="@id/SearchFragmentAuthors"/>
     </fragment>
+
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.poetress.MainFragment"
-        android:label="MainFragment">
-        <action
-            android:id="@+id/action_mainFragment_to_SettingsFragment"
-            app:destination="@id/SettingsFragment"/>
-        <action
-            android:id="@+id/action_mainFragment_to_SearchFragment"
-            app:destination="@id/SearchFragmentAuthors"/>
+        android:id="@+id/ChatSelectNew"
+        android:name="com.example.poetress.ui.chat.FragmentChatSelectNew"
+        android:label="ChatSelectNew">
     </fragment>
+
+    <fragment
+        android:id="@+id/SomeOneProfile"
+        android:name="com.example.poetress.ui.some1_profile.SomeOneProfile"
+        android:label="SomeOneProfile">
+        <action
+            android:id="@+id/action_SomeOneProfile_to_mainFragment"
+            app:destination="@id/mainFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/ChatMainDialog"
+        android:name="com.example.poetress.ui.chat.ChatMainDialog"
+        android:label="ChatMainDialog"/>
+
     <fragment
         android:id="@+id/info"
         android:name="com.example.poetress.ui.sign_up_sign_in.UpdateDataFragment"
@@ -96,4 +117,25 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.poetress.MainFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment"/>
+        <action
+            android:id="@+id/action_mainFragment_to_SearchFragment"
+            app:destination="@id/SearchFragmentAuthors"/>
+        <action android:id="@+id/action_mainFragment_to_SomeOneProfile"
+            app:destination="@id/SomeOneProfile"/>
+        <action
+            android:id="@+id/action_mainFragment_to_ChatSelectNew"
+            app:destination="@id/ChatSelectNew"/>
+        <action
+            android:id="@+id/action_mainFragment_to_ChatMainDialog"
+            app:destination="@id/ChatMainDialog"/>
+    </fragment>
+
 </navigation>

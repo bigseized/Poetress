@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
-            android:id="@+id/topLogo"
+            android:id="@+id/backButton"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
@@ -31,21 +31,21 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Михаил Беляев"
-            app:layout_constraintStart_toEndOf="@id/topLogo"
-            app:layout_constraintEnd_toStartOf="@id/spaceTop"
-            app:layout_constraintTop_toTopOf="@id/topLogo"
+            android:text=""
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintEnd_toStartOf="@id/add"
+            app:layout_constraintTop_toTopOf="@id/backButton"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/topLogo"/>
-        <Space
-            android:id="@+id/spaceTop"
+            app:layout_constraintBottom_toBottomOf="@id/backButton"/>
+        <ImageView
+            android:id="@+id/add"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/icon_add_friend"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +66,7 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/space"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topNav">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -112,13 +112,13 @@
                 android:layout_marginTop="12dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/profile_avatar_view"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/text3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circular"
-                app:srcCompat="@drawable/test_ava" />
+                app:srcCompat="@color/white" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/info"
@@ -162,7 +162,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:fontFamily="@font/franklin_gothic_medium"
-                android:text="Интересы: лирика, омегаверс, боевые свиньи, мефедрон, мацать пид матрасом, пиво, Сано стефано + козел, секс с животными"
+                android:text="-"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -223,12 +223,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <Space
-        android:id="@+id/space"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

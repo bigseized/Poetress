@@ -9,10 +9,6 @@
         android:icon="@drawable/ic_home"
         android:title="Лента"/>
     <item
-        android:id="@+id/swiper_main"
-        android:icon="@drawable/ic_swiper"
-        android:title="Свайпер"/>
-    <item
         android:id="@+id/chat_main"
         android:icon="@drawable/ic_chat"
         android:title="Чат"/>

@@ -1,4 +1,4 @@
-package com.example.poetress.ui.profile;
+package com.example.poetress.data.types;
 
 import java.net.URL;
 import java.util.Date;
@@ -10,16 +10,16 @@ public class ProfileVerse {
     private String Uri;
     private String Author;
     private Date Date_Verse;
-    private String Genre_Verse;
+    private String Ganre_Verse;
     private String Name_Verse;
     private String Text_Verse;
 
-    public ProfileVerse(String Uri, String Author, Date Date_Verse, String Genre_Verse, String Name_Verse, String Text_Verse) {
+    public ProfileVerse(String Uri, String Author, Date Date_Verse, String Ganre_Verse, String Name_Verse, String Text_Verse) {
         this.Uri = Uri;
         this.Name_Verse = Name_Verse;
         this.Date_Verse = Date_Verse;
         this.Text_Verse = Text_Verse;
-        this.Genre_Verse = Genre_Verse;
+        this.Ganre_Verse = Ganre_Verse;
         this.Author = Author;
     }
 
@@ -31,8 +31,8 @@ public class ProfileVerse {
         return Author;
     }
 
-    public String getGenre_Verse() {
-        return Genre_Verse;
+    public String getGanre_Verse() {
+        return Ganre_Verse;
     }
 
     public String getUri() {return Uri;}
@@ -45,8 +45,8 @@ public class ProfileVerse {
         return Text_Verse;
     }
 
-    public void setGenre_Verse(String genre_Verse) {
-        this.Genre_Verse = genre_Verse;
+    public void setGanre_Verse(String ganre_Verse) {
+        this.Ganre_Verse = ganre_Verse;
     }
 
     public void setAuthor(String author) {

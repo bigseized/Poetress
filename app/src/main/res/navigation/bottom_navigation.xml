@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_navigation"
-    app:startDestination="@id/swiper_main">
+    app:startDestination="@id/feed_main">
 
     <fragment
         android:id="@+id/profile_main"
@@ -15,11 +15,7 @@
         android:name="com.example.poetress.ui.chat.chat_main"
         android:label="fragment_chat_main"
         tools:layout="@layout/fragment_chat_main" />
-    <fragment
-        android:id="@+id/swiper_main"
-        android:name="com.example.poetress.ui.swiper.swiper_main"
-        android:label="fragment_swiper_main"
-        tools:layout="@layout/fragment_swiper_main" />
+
     <fragment
         android:id="@+id/feed_main"
         android:name="com.example.poetress.ui.feed.feed_main"

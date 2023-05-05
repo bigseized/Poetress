@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragment extends Fragment {
     ImageView backButton;
-    Button exit;
+    Button exit, updataData;
     private SettingsViewModel mViewModel;
     FirebaseAuth firebaseAuth;
     FragmentProfileSettingsBinding binding;
@@ -41,6 +41,8 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         backButton = binding.backButton;
         exit = binding.logOut;
+        updataData = binding.updateData;
+
         backButton.setOnClickListener(v->{
             NavHostFragment.findNavController(this).popBackStack();
         });
@@ -48,6 +50,10 @@ public class SettingsFragment extends Fragment {
             firebaseAuth.signOut();
             NavHostFragment.findNavController(this).navigate(R.id.action_Settings_to_Login);
         });
+        updataData.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.action_Settings_to_UpdateData);
+        });
+
     }
 
     @Override

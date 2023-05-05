@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -32,6 +33,12 @@ public class MainFragment extends Fragment {
         NavController navController =navHostFragment.getNavController();
         BottomNavigationView navigationBar = binding.navView;
         NavigationUI.setupWithNavController(navigationBar, navController);
+        NavOptions navOptions = new NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_in_left)
+                .setExitAnim(R.anim.slide_in_right)
+                .build();
+
+
 
     }
 }

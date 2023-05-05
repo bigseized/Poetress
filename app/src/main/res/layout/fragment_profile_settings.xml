@@ -53,11 +53,20 @@
         android:padding="8dp">
         <Button
             app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/updateData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upDATA"
+            android:textAllCaps="false"
+            android:textColor="@color/black"/>
+        <Button
+            app:layout_constraintTop_toBottomOf="@id/updateData"
             android:id="@+id/logOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Выйти"
-            android:textColor="@color/black"/>
+            android:textAllCaps="false"
+            android:textColor="@color/red"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

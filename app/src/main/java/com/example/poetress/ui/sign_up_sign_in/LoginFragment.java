@@ -6,24 +6,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.poetress.R;
+import com.example.poetress.data.types.UserMainData;
 import com.example.poetress.databinding.LoginFormBinding;
 import com.example.poetress.view_model.LoginViewModel;
+import com.example.poetress.view_model.UpdateDataViewModel;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginFragment extends Fragment {
     private LoginViewModel mViewModel;
     private LoginFormBinding binding;
     EditText email, password;
     FirebaseAuth firebaseAuth;
+    ProgressBar progressBar;
+    ConstraintLayout allItems;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
 
@@ -31,11 +42,32 @@ public class LoginFragment extends Fragment {
     public void onStart() {
         super.onStart();
         email = binding.etEmail;
+        progressBar = binding.progressBar;
+        allItems = binding.allItems;
         password = binding.etPass;
-        if (firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
-            NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
-        }
+        List<Task<?>> tasks = new ArrayList<>();
 
+        if (firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
+            progressBar.setVisibility(View.VISIBLE);
+            allItems.setVisibility(View.INVISIBLE);
+            mViewModel.loadData();
+            mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
+                if ((data.getSurname().isEmpty() || data.getName().isEmpty())){
+                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
+                }
+                else{
+                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_new_graph);
+                }
+            });
+            mViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+                if (error != null && error.equals("Document does not exist")) {
+                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
+                }
+                else{
+                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_new_graph);
+                }
+            });
+        }
     }
 
     public static LoginFragment newInstance() {
@@ -59,16 +91,35 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
             binding.btnIn.setOnClickListener(v-> {
+                progressBar.setVisibility(View.VISIBLE);
+                allItems.setVisibility(View.INVISIBLE);
                 try {
                     firebaseAuth.signInWithEmailAndPassword(email.getText().toString().trim(),password.getText().toString().trim()).addOnCompleteListener(task -> {
                         if (task.isSuccessful()){
                             try {
                                 if (firebaseAuth.getCurrentUser().isEmailVerified()){
-                                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
-                                    Log.d("Login", "Login: succesfull");
+                                    mViewModel.loadData();
+                                    mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
+                                        if ((data.getSurname().isEmpty() || data.getName().isEmpty())){
+                                            NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
+                                        }
+                                        else{
+                                            NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_new_graph);
+                                        }
+                                    });
+                                    mViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+                                        if (error != null && error.equals("Document does not exist")) {
+                                            NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
+                                        }
+                                        else{
+                                            NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_new_graph);
+                                        }
+                                    });
                                 }
                                 else{
                                     Toast.makeText(getActivity().getApplicationContext(),"Электронная почта не подтверждена",Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                    allItems.setVisibility(View.VISIBLE);
                                 }
                             }catch (NullPointerException e){
                                 Log.wtf("Login", "Login: nullpointer");
@@ -78,11 +129,15 @@ public class LoginFragment extends Fragment {
                         else{
                             Toast.makeText(getActivity().getApplicationContext(),"Пользователь с такими данными не найден",Toast.LENGTH_SHORT).show();
                             Log.d("Login", task.getException().toString());
+                            progressBar.setVisibility(View.INVISIBLE);
+                            allItems.setVisibility(View.VISIBLE);
                         }
                     });
                 }catch (Exception e){
                     Toast.makeText(getActivity().getApplicationContext(),"Поля не должны быть пустыми",Toast.LENGTH_SHORT).show();
                     Log.d("Login", e.getMessage());
+                    progressBar.setVisibility(View.INVISIBLE);
+                    allItems.setVisibility(View.VISIBLE);
                 }
 
             });

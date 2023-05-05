@@ -2,7 +2,6 @@ package com.example.poetress.data.repositories;
 
 import android.util.Log;
 
-import com.example.poetress.data.data_sources.UserMainData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
