@@ -1,5 +1,6 @@
 package com.example.poetress.ui.some1_profile;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 
@@ -29,6 +30,7 @@ import com.example.poetress.R;
 import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.databinding.FragmentProfileMainBinding;
 import com.example.poetress.databinding.ProfileAnotherPersonBinding;
+import com.example.poetress.ui.ImageFragment;
 import com.example.poetress.ui.profile.RecyclerView.ProfileViewHolder;
 import com.example.poetress.view_model.ProfileMainViewModel;
 import com.example.poetress.view_model.SomeOneProfileViewModel;
@@ -52,6 +54,7 @@ public class SomeOneProfile extends Fragment {
     versesRecyclerAdapter adapter;
     RecyclerView versesRecycler;
     String UserID;
+    Uri uri;
 
 
     public static com.example.poetress.ui.some1_profile.SomeOneProfile newInstance() {return new com.example.poetress.ui.some1_profile.SomeOneProfile();}
@@ -68,7 +71,6 @@ public class SomeOneProfile extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ProfileAnotherPersonBinding.inflate(inflater, container, false);
-
         mViewModel.loadData();
         mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
             if (!data.getImage_Profile().isEmpty()){
@@ -84,6 +86,7 @@ public class SomeOneProfile extends Fragment {
                     public void run() {
                         try {
                             image = Picasso.get().load(Uri.parse(data.getImage_Profile())).get();
+                            uri = Uri.parse(data.getImage_Profile());
                             adapter.setImage(image);
                             adapter.notifyDataSetChanged();
                         } catch (Exception e) {
@@ -115,6 +118,12 @@ public class SomeOneProfile extends Fragment {
 
         binding.backButton.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
+        });
+
+        binding.imageView.setOnClickListener(v -> {
+            ImageFragment dialogFragment = new ImageFragment(uri);
+            dialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+            dialogFragment.show(getActivity().getSupportFragmentManager(), "image");
         });
 
         binding.add.setOnClickListener(v -> {

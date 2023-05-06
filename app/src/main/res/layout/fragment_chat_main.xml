@@ -5,16 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
-    tools:context=".ui.swiper.swiper_main">
+    android:background="@color/white">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/background_content_top"
-        app:layout_constraintBaseline_toBottomOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/recyclerView" />
+<!--    <View-->
+<!--        android:id="@+id/view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:background="@drawable/background_content_top"-->
+<!--        app:layout_constraintBaseline_toBottomOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/recyclerView" />-->
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

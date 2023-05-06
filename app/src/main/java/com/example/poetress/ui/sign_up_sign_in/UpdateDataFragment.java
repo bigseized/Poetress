@@ -38,6 +38,7 @@ public class UpdateDataFragment extends Fragment {
     EditText name,surname, interests;
     ImageView Image;
     Uri ImageUri;
+    Boolean flag = false;
     final static int PICK_PHOTO_FOR_AVATAR = 1;
 
     @Override
@@ -105,7 +106,7 @@ public class UpdateDataFragment extends Fragment {
             surname.setError("Обязательное поле");
             flag = false;
         }
-        if (ImageUri == null){
+        if (ImageUri == null || !flag){
             Toast.makeText(getActivity(),"Выберите фото профиля", Toast.LENGTH_SHORT).show();
         }
         return flag;
@@ -118,9 +119,10 @@ public class UpdateDataFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK && data != null) {
            binding.setImage.setImageURI(data.getData());
            ImageUri = data.getData();
+           flag = true;
         }
     }
 }

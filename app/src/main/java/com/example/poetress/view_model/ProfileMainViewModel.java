@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.poetress.data.types.UserMainData;
 import com.example.poetress.data.repositories.UserMainDataInteraction;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 
 public class ProfileMainViewModel extends ViewModel {
@@ -13,6 +15,7 @@ public class ProfileMainViewModel extends ViewModel {
     private MutableLiveData<UserMainData> data = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private MutableLiveData<String> error = new MutableLiveData<>();
+    private MutableLiveData<Boolean> deleted = new MutableLiveData<>();
 
     public void loadData() {
         isLoading.setValue(true);
@@ -29,6 +32,14 @@ public class ProfileMainViewModel extends ViewModel {
                 error.setValue(e.getMessage());
             }
         });
+    }
+
+    public void deleteVerse(String documentId, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
+        repository.deleteVerse(documentId, onSuccessListener, onFailureListener);
+    }
+
+    public LiveData<Boolean> getStatus(){
+        return deleted;
     }
 
     public LiveData<UserMainData> getData() {

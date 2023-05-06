@@ -13,7 +13,7 @@ import com.example.poetress.R;
 
 public class ProfileViewHolder extends RecyclerView.ViewHolder {
     public TextView name, title, text, ganre;
-    public ImageView image;
+    public ImageView image,delete;
     public ConstraintLayout constraintItem;
 
     public ProfileViewHolder(@NonNull View itemView) {
@@ -34,6 +34,18 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
 
                 mClickListener.onItemLongClick(v, getAdapterPosition());
                 return true;
+            }
+        });
+        delete = itemView.findViewById(R.id.delete);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    mClickListener.onItemClick(v, getAbsoluteAdapterPosition());
+                }catch (Exception e){
+                    Log.d("my", "onClick: "+ e);
+                }
             }
         });
         ganre = itemView.findViewById(R.id.text);

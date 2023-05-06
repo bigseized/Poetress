@@ -82,7 +82,7 @@ public class create_main extends Fragment {
         });
         create.setOnClickListener(v -> {
             if (!title.getText().toString().equals("") && !text1.getText().toString().equals("") ) {
-                mViewModel.createVerse(category.getText().toString(), title.getText().toString(), verse.getText().toString());
+                mViewModel.createVerse(category.getText().toString(), title.getText().toString().trim(), verse.getText().toString().trim());
                 Toast.makeText(getActivity().getApplicationContext(), "Успешно", Toast.LENGTH_SHORT).show();
                 title.setText("");
                 verse.setText("");

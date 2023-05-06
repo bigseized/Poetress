@@ -22,7 +22,7 @@ public class recycler_view_category_adapter extends RecyclerView.Adapter<recycle
     //TextView mTextView;
 
     // data is passed into the constructor
-    public recycler_view_category_adapter(Context context, ArrayList<String> data) {
+    public recycler_view_category_adapter(Context context, List<String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }

@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class feed_main extends Fragment implements recycler_view_category_widget
     private FeedMainViewModel mViewModel;
     FragmentFeedMainBinding binding;
     AppCompatImageView search;
+    ProgressBar progressBar;
     RecyclerView mCategoryView, recyclerView;
     recycler_view_category_widgets_adapter adapter;
     UserVersesAdapter adapterPost;
@@ -53,8 +55,11 @@ public class feed_main extends Fragment implements recycler_view_category_widget
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentFeedMainBinding.inflate(inflater,container,false);
-
         recyclerView = binding.feedPostsRecycler;
+        progressBar = binding.progressBar;
+
+
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
 
@@ -66,6 +71,8 @@ public class feed_main extends Fragment implements recycler_view_category_widget
         recyclerView.setAdapter(adapterPost);
         recyclerView.getRecycledViewPool().clear();
         adapterPost.clear();
+        recyclerView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
         mViewModel.getUserVersesLiveData().observe(getViewLifecycleOwner(), new Observer<List<ProfileVerse>>() {
 
@@ -73,6 +80,8 @@ public class feed_main extends Fragment implements recycler_view_category_widget
             public void onChanged(List<ProfileVerse> profileVerses) {
                 adapterPost.addItems(profileVerses);
                 profileVerseList = profileVerses;
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -100,7 +109,7 @@ public class feed_main extends Fragment implements recycler_view_category_widget
             public void onItemClick(int position, int clickedViewId, RawVerse info, String UserId) {
                 if (clickedViewId == R.id.text3){
                     try{
-                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity(),R.style.AppBottomSheetDialogTheme);
                         bottomSheetDialog.setContentView(R.layout.bottom_dialog_profile_verse);
                         TextView bd_title = bottomSheetDialog.findViewById(R.id.bd_Title);
                         TextView bd_text = bottomSheetDialog.findViewById(R.id.bd_Text);

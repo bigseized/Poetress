@@ -62,8 +62,9 @@
 
         android:layout_marginTop="8dp"
         android:text="Стихи о советском паспорте"
+        android:maxLines="2"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:fontFamily="@font/franklin_gothic_medium"
         app:layout_constraintTop_toBottomOf="@id/author"
         app:layout_constraintBottom_toTopOf="@id/text3"

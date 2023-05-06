@@ -32,7 +32,7 @@ public class versesRecyclerAdapter extends FirestoreRecyclerAdapter<ProfileVerse
     @NonNull
         @Override
         public versesRecyclerItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_profile_verse, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_another_profile_verse, parent, false);
             return new versesRecyclerItemViewHolder(view);
         }
 
@@ -47,7 +47,7 @@ public class versesRecyclerAdapter extends FirestoreRecyclerAdapter<ProfileVerse
             holder.setOnClickListener(new versesRecyclerItemViewHolder.ClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(view.getContext());
+                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(view.getContext(),R.style.AppBottomSheetDialogTheme);
                     bottomSheetDialog.setContentView(R.layout.bottom_dialog_profile_verse);
                     TextView bd_title = bottomSheetDialog.findViewById(R.id.bd_Title);
                     TextView bd_text = bottomSheetDialog.findViewById(R.id.bd_Text);

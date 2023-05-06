@@ -92,6 +92,15 @@ public class UserMainDataInteraction {
                     }
                 }
         );
+    }
 
+    public void deleteVerse(String documentId, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
+        firebaseFirestore.collection("User_Data")
+                .document(firebaseAuth.getUid())
+                .collection("User_Verses")
+                .document(documentId)
+                .delete()
+                .addOnSuccessListener(onSuccessListener)
+                .addOnFailureListener(onFailureListener);
     }
 }

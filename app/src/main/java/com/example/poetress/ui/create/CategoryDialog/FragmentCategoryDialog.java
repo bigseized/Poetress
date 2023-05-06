@@ -1,21 +1,28 @@
 package com.example.poetress.ui.create.CategoryDialog;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
+import com.example.poetress.data.data_sources.CategoryFeedMain;
 import com.example.poetress.databinding.DialogCreateCategoryBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentCategoryDialog extends androidx.fragment.app.DialogFragment implements recycler_view_category_adapter.ItemClickListener{
 
@@ -24,26 +31,33 @@ public class FragmentCategoryDialog extends androidx.fragment.app.DialogFragment
     RecyclerView mCategoryView;
     Button categoryButton;
     ArrayList<String> Ganers;
+    CategoryFeedMain categoryFeedMain;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogCreateCategoryBinding.inflate(inflater, container, false);
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
         return binding.getRoot();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        categoryFeedMain = new CategoryFeedMain();
         Ganers = new ArrayList<>();
-        Ganers.add("Лирика");
-        Ganers.add("Гражданская лирика");
-        Ganers.add("Военная поэзия");
-        Ganers.add("Проза");
-        Ganers.add("Хоку");
+        Ganers = categoryFeedMain.getCategory();
         mCategoryView = binding.categoryRecycler;
         mCategoryView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mCategoryView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
         adapter = new recycler_view_category_adapter(getActivity(), Ganers);
         adapter.setClickListener(this);
+        binding.cancel.setOnClickListener(v -> {
+            dismiss();
+        });
         Log.d("my", "onCreate: Adapter Set");
         mCategoryView.setAdapter(adapter);
     }

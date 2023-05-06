@@ -92,6 +92,11 @@ public class chat_main extends Fragment {
 
             @Override
             public void onItemLongClick(View view, int position) {
+                Bundle bundleID = new Bundle();
+                SimpleUserData data = mViewModel.getData(position);
+                bundleID.putString("userId",data.getID());
+                NavHostFragment.findNavController(getParentFragment().getParentFragment()).navigate(R.id.action_mainFragment_to_SomeOneProfile, bundleID);
+
             }
         });
 

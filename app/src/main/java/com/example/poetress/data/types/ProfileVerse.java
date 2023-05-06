@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ProfileVerse {
 
-    ProfileVerse () {}
+    public ProfileVerse () {}
 
     private String Uri;
     private String Author;
