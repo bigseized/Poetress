@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
 import com.example.poetress.data.repositories.FeedVersesGetData;
+import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.data.types.RawVerse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -29,6 +31,7 @@ import java.util.List;
 public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.UserVerseViewHolder> {
 
     private List<ProfileVerse> userVerses = new ArrayList<>();
+    private List<AdditionVerseInfo> additionVerseInfoList = new ArrayList<>();
     private List<String> userId = new ArrayList<>();
     private OnItemClickListener listener;
     FeedVersesGetData repository;
@@ -42,13 +45,10 @@ public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.Us
         this.viewModel = viewModel;
     }
 
-    public void setUserVerses(List<ProfileVerse> userVerses) {
-        this.userVerses = userVerses;
-        notifyDataSetChanged();
-    }
 
     public void clear() {
         userVerses.clear();
+        additionVerseInfoList.clear();
         notifyDataSetChanged();
     }
 
@@ -56,6 +56,11 @@ public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.Us
         int startPos = userVerses.size();
         userVerses.addAll(newVerses);
         notifyItemRangeInserted(startPos, newVerses.size());
+    }
+    public void addAdd(List<AdditionVerseInfo> newInfo){
+        int startPos = additionVerseInfoList.size();
+        additionVerseInfoList.addAll(newInfo);
+        notifyItemRangeInserted(startPos, newInfo.size());
     }
 
     @NonNull
@@ -70,7 +75,8 @@ public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.Us
     @Override
     public void onBindViewHolder(@NonNull UserVerseViewHolder holder, int position) {
         ProfileVerse userVerse = userVerses.get(position);
-        holder.bind(userVerse);
+        AdditionVerseInfo additionVerseInfo = additionVerseInfoList.get(position);
+        holder.bind(userVerse, additionVerseInfo);
     }
 
     @Override
@@ -85,19 +91,42 @@ public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.Us
 
     public class UserVerseViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView author, date, title, text;
-        private ImageView userIm;
+        private TextView author, date, title, text,likesCounter, commentsCounter;
+        private CheckBox like;
+        private ImageView userIm, comments;
         private ConstraintLayout constraintLayout;
         MutableLiveData<Integer> clickData = new MutableLiveData<>();
 
         public UserVerseViewHolder(@NonNull View itemView) {
             super(itemView);
+
             author = itemView.findViewById(R.id.text1);
             date = itemView.findViewById(R.id.dateText);
             title = itemView.findViewById(R.id.text2);
             text = itemView.findViewById(R.id.text3);
             userIm = itemView.findViewById(R.id.imageView1);
+            like = itemView.findViewById(R.id.like);
+            likesCounter = itemView.findViewById(R.id.likes_counter);
+            commentsCounter = itemView.findViewById(R.id.comments_counter);
+            comments = itemView.findViewById(R.id.comment);
+
+            comments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        userId = viewModel.getUserIds();
+                        try {
+                            listener.onItemClick(getAdapterPosition(), R.id.comment,null, userId.get(getAdapterPosition()));
+                        }
+                        catch (Exception e){
+
+                        }
+                    }
+                }
+            });
+
             constraintLayout = itemView.findViewById(R.id.author);
+
             constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -112,11 +141,24 @@ public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.Us
                     }
                 }
             });
+
             text.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
                         listener.onItemClick(getAdapterPosition(), R.id.text3,new RawVerse(userVerses.get(getAdapterPosition()).getName_Verse(), userVerses.get(getAdapterPosition()).getText_Verse()), null);
+                    }
+                }
+            });
+
+            like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    userId = viewModel.getUserIds();
+                    if ( ((CheckBox)v).isChecked() ) {
+                        listener.onItemClick(getAdapterPosition(), R.id.like, null, userId.get(getAdapterPosition()));
+                    }else{
+                        listener.onItemClick(getAdapterPosition(), R.id.like,null, userId.get(getAdapterPosition()));
                     }
                 }
             });
@@ -126,11 +168,17 @@ public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.Us
             return clickData;
         }
 
-        public void bind(ProfileVerse userVerse) {
+        public void bind(ProfileVerse userVerse, @NonNull AdditionVerseInfo addInfo) {
+
+            likesCounter.setText(addInfo.getNumOfLikes().toString());
+            commentsCounter.setText(addInfo.getNumOfComment().toString());
+            like.setChecked(addInfo.getLiked());
+
             author.setText(userVerse.getAuthor());
             date.setText(userVerse.getDate_Verse().toString());
             title.setText(userVerse.getName_Verse());
             text.setText(userVerse.getText_Verse());
+
             try {
                 Picasso.get().load(Uri.parse(userVerse.getUri())).into(userIm);
             }
@@ -138,5 +186,6 @@ public class UserVersesAdapter extends RecyclerView.Adapter<UserVersesAdapter.Us
                 userIm.setImageResource(R.drawable.profile_avatar_view);
                 }
             }
+
         }
     }

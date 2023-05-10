@@ -2,16 +2,13 @@ package com.example.poetress.ui.profile;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -26,13 +26,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
+import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.databinding.FragmentProfileMainBinding;
 import com.example.poetress.ui.ImageFragment;
-import com.example.poetress.ui.create.CategoryDialog.FragmentCategoryDialog;
-import com.example.poetress.ui.profile.RecyclerView.ProfileViewHolder;
 import com.example.poetress.view_model.ProfileMainViewModel;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.example.poetress.view_model.ProfileVersesAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,14 +47,15 @@ import java.util.List;
 public class profile_main extends Fragment {
 
     private ProfileMainViewModel mViewModel;
-    FirestoreRecyclerAdapter adapter;
+    ProfileVersesAdapter adapter;
     TextView bd_title,bd_text;
     FirebaseAuth firebaseAuth;
     String User_UID;
-    List<String> documentId;
+    String documentId;
     AlertDialog.Builder builder;
     View view;
     Uri uri;
+    List<AdditionVerseInfo> additionList = new ArrayList<>();
     ImageView settings;
     int adapterPosition;
     FragmentProfileMainBinding binding;
@@ -63,8 +63,6 @@ public class profile_main extends Fragment {
 
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView mFirestorelist;
-    Bitmap bitmap;
-    Integer imHeight, inWidth;
 
     public static profile_main newInstance() {
         return new profile_main();
@@ -74,16 +72,13 @@ public class profile_main extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ProfileMainViewModel.class);
-
-        documentId = new ArrayList<>();
         builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Подтверждение действия");
         builder.setMessage("Вы уверены, что хотите удалить произведение?");
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(getActivity(), documentId + "  " + adapterPosition, Toast.LENGTH_SHORT).show();
-                deleteVerse(documentId.get(adapterPosition));
+                deleteVerse(documentId);
             }
         });
         builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
@@ -100,8 +95,9 @@ public class profile_main extends Fragment {
         settings = binding.settings;
         progressBarVerse = binding.progressBarVerses;
         mFirestorelist = binding.profileRecycler;
-        progressBarVerse.setVisibility(View.VISIBLE);
-        mFirestorelist.setVisibility(View.INVISIBLE);
+
+//        progressBarVerse.setVisibility(View.VISIBLE);
+//        mFirestorelist.setVisibility(View.INVISIBLE);
 
 
         mViewModel.loadData();
@@ -109,10 +105,13 @@ public class profile_main extends Fragment {
             if (!data.getImage_Profile().isEmpty()){
                 Picasso.get().load(Uri.parse(data.getImage_Profile())).into(binding.imageView);
                 uri = Uri.parse(data.getImage_Profile());
+                adapter.setUri(uri);
             }
             binding.text.setText(data.getName() + " " + data.getSurname());
             binding.text3.setText("Интересы: " + data.getInterests());
         });
+
+
 
         binding.profileRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -129,6 +128,7 @@ public class profile_main extends Fragment {
             if (task.getResult().isEmpty()){
                 progressBarVerse.setVisibility(View.INVISIBLE);
                 mFirestorelist.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -136,62 +136,67 @@ public class profile_main extends Fragment {
                 new FirestoreRecyclerOptions.Builder<ProfileVerse>()
                         .setQuery(query, ProfileVerse.class)
                         .build();
+        adapter = new ProfileVersesAdapter(options, mViewModel);
 
-        adapter = new FirestoreRecyclerAdapter<ProfileVerse, ProfileViewHolder>(options) {
-            @NonNull
+        mViewModel.getAdditionVersesInfoData().observe(getViewLifecycleOwner(), new Observer<List<AdditionVerseInfo>>() {
+
             @Override
-            public ProfileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_profile_verse, parent, false);
-                return new ProfileViewHolder(view);
+            public void onChanged(List<AdditionVerseInfo> additionVerseInfoList) {
+                mFirestorelist.setAdapter(adapter);
+                adapter.setListAdd(additionVerseInfoList);
+                mFirestorelist.getRecycledViewPool().clear();
+                adapter.notifyDataSetChanged();
+                //adapter.notifyItemRangeChanged();
+                additionList = additionVerseInfoList;
+
             }
+        });
 
 
+        adapter.setOnItemClickListener(new ProfileVersesAdapter.OnItemClickListener() {
             @Override
-            protected void onBindViewHolder(@NonNull ProfileViewHolder holder, int position, @NonNull ProfileVerse verse) {
-                //holder.ganre.setText(verse.getGenre_Verse());
-                documentId.add(getSnapshots().getSnapshot(holder.getAbsoluteAdapterPosition()).getId());
-                holder.name.setText(verse.getAuthor());
-                holder.title.setText(verse.getName_Verse());
-                holder.text.setText(verse.getText_Verse().replaceAll("\\\\n", "\n"));
-                mViewModel.loadData();
-                mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
-                    if (!data.getImage_Profile().isEmpty()){
-                        Picasso.get().load(Uri.parse(data.getImage_Profile())).into(holder.image);
-                    }
-                    progressBarVerse.setVisibility(View.INVISIBLE);
-                    mFirestorelist.setVisibility(View.VISIBLE);
-                });
-                holder.setOnClickListener(new ProfileViewHolder.ClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
+            public void onItemClick(int position, int clickedViewId) {
+                switch (clickedViewId){
+                    case R.id.delete:
+                        documentId = adapter.getDocumentId(position);
+                        AlertDialog dialog = builder.create();
+                        adapterPosition = position;
+                        dialog.show();
+                        break;
+                    case R.id.text3:
                         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity(),R.style.AppBottomSheetDialogTheme);
                         bottomSheetDialog.setContentView(R.layout.bottom_dialog_profile_verse);
                         bd_title = bottomSheetDialog.findViewById(R.id.bd_Title);
                         bd_text = bottomSheetDialog.findViewById(R.id.bd_Text);
-                        bd_title.setText(verse.getName_Verse());
-                        bd_text.setText(verse.getText_Verse());
+                        bd_title.setText(adapter.getVerses(position).getName_Verse());
+                        bd_text.setText(adapter.getVerses(position).getText_Verse());
                         bottomSheetDialog.show();
-                    }
-
-                    @Override
-                    public void onItemLongClick(View view, int position) {
-                    }
-                });
-                holder.delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog dialog = builder.create();
-                        adapterPosition = holder.getAbsoluteAdapterPosition();
-                        dialog.show();
-                    }
-                });
-                Log.d("my", "onBindViewHolder: successful added ");
+                        break;
+                    case R.id.like:
+//                        LiveData<Boolean> resultLiveData = mViewModel.updateLike(mViewModel.getVerseIds().get(position),UserId);
+//                        resultLiveData.observe(getViewLifecycleOwner(), containsCurrentUser -> {
+//                            MutableLiveData<List<AdditionVerseInfo>> likeInfoLiveData = mViewModel.getAdditionVersesInfoData();
+//                            AdditionVerseInfo newAddInfo =  additionVerseInfoList.get(position);
+//                            if (containsCurrentUser != null && containsCurrentUser) {
+//                                // Документ существует и содержит идентификатор текущего пользователя
+//                                newAddInfo.setLiked(true);
+//                                newAddInfo.setNumOfLikes(newAddInfo.getNumOfLikes() + 1);
+//                            } else {
+//                                // Документ не существует или не содержит идентификатор текущего пользователя
+//                                newAddInfo.setLiked(false);
+//                                newAddInfo.setNumOfLikes(newAddInfo.getNumOfLikes() - 1);
+//                            }
+//                            adapter.notifyItemChanged(position, newAddInfo);
+//                        });
+                        break;
+                }
             }
-        };
+        });
+
 
         mFirestorelist.setHasFixedSize(false);
         mFirestorelist.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mFirestorelist.setAdapter(adapter);
+
 
 
 
@@ -240,9 +245,8 @@ public class profile_main extends Fragment {
         mViewModel.deleteVerse(ID_Verse, new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                adapter.deleteDocument(adapterPosition);
                 adapter.notifyDataSetChanged();
-                documentId.remove(adapterPosition);
-                //adapter.notifyItemRemoved(adapterPosition);
             }
         }, new OnFailureListener() {
             @Override

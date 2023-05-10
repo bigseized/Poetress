@@ -4,17 +4,23 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
+import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.UserMainData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,11 +29,53 @@ public class UserMainDataInteraction {
     FirebaseStorage firebaseStorage;
     FirebaseAuth firebaseAuth;
     StorageReference storageReference;
+    MutableLiveData<List<AdditionVerseInfo>> additionVerseLD = new MutableLiveData<>();
+
     public UserMainDataInteraction(){
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    public void loadAdditionInfo(){
+        firebaseFirestore.collection("User_Data").document(firebaseAuth.getUid())
+                .collection("User_Verses").orderBy("Date_Verse", Query.Direction.DESCENDING)
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        List<AdditionVerseInfo> additionVerseInfoList = new ArrayList<>();
+                        for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                            AdditionVerseInfo singleInfo = new AdditionVerseInfo();
+                            setAddInfo(singleInfo,documentSnapshot.getReference());
+                            additionVerseInfoList.add(singleInfo);
+                        }
+                        additionVerseLD.postValue(additionVerseInfoList);
+                    }
+                });
+    }
+
+    public MutableLiveData<List<AdditionVerseInfo>> getAdditionVerseLD(){
+        return additionVerseLD;
+    }
+
+    private void setAddInfo(AdditionVerseInfo addInfo, DocumentReference docRef){
+        docRef.collection("likes").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                addInfo.setNumOfLikes(task.getResult().size());
+            }
+        });
+        docRef.collection("likes").document(firebaseAuth.getUid()).get().addOnCompleteListener(task1 -> {
+            if (task1.isSuccessful()){
+                if(task1.getResult().exists()){
+                    addInfo.setLiked(true);
+                }
+            }
+        });
+        docRef.collection("comments").get().addOnCompleteListener(task2 ->{
+            if (task2.isSuccessful()){
+                addInfo.setNumOfComment(task2.getResult().size());
+            }
+        });
     }
 
     public void getDataFromFirebase(final OnFirestoreDataCallback<UserMainData> callback) {

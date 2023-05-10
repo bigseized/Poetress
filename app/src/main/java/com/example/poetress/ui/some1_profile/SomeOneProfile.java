@@ -6,20 +6,14 @@ import androidx.fragment.app.Fragment;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -27,23 +21,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
-import com.example.poetress.data.types.ProfileVerse;
-import com.example.poetress.databinding.FragmentProfileMainBinding;
 import com.example.poetress.databinding.ProfileAnotherPersonBinding;
 import com.example.poetress.ui.ImageFragment;
-import com.example.poetress.ui.profile.RecyclerView.ProfileViewHolder;
-import com.example.poetress.view_model.ProfileMainViewModel;
 import com.example.poetress.view_model.SomeOneProfileViewModel;
 import com.example.poetress.view_model.versesRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 
 public class SomeOneProfile extends Fragment {
 

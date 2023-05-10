@@ -38,9 +38,4 @@
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/receivedTextMessage"
         app:layout_constraintTop_toBottomOf="@id/receivedTextMessage"/>
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

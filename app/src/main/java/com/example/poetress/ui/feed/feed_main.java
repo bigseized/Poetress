@@ -1,6 +1,8 @@
 package com.example.poetress.ui.feed;
 
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,12 +19,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.poetress.MainFragment;
 import com.example.poetress.R;
+import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.data.types.RawVerse;
 import com.example.poetress.databinding.FragmentFeedMainBinding;
@@ -45,6 +49,7 @@ public class feed_main extends Fragment implements recycler_view_category_widget
     recycler_view_category_widgets_adapter adapter;
     UserVersesAdapter adapterPost;
     List<ProfileVerse> profileVerseList;
+    List<AdditionVerseInfo> additionVerseInfoList;
 
     public static feed_main newInstance() {
         return new feed_main();
@@ -57,6 +62,7 @@ public class feed_main extends Fragment implements recycler_view_category_widget
         binding = FragmentFeedMainBinding.inflate(inflater,container,false);
         recyclerView = binding.feedPostsRecycler;
         progressBar = binding.progressBar;
+        additionVerseInfoList = new ArrayList<>();
 
 
 
@@ -82,6 +88,13 @@ public class feed_main extends Fragment implements recycler_view_category_widget
                 profileVerseList = profileVerses;
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+        mViewModel.getAdditionVersesInfoData().observe(getViewLifecycleOwner(), new Observer<List<AdditionVerseInfo>>() {
+            @Override
+            public void onChanged(List<AdditionVerseInfo> additionVerseInfo) {
+                adapterPost.addAdd(additionVerseInfo);
+                additionVerseInfoList.addAll(additionVerseInfo);
             }
         });
 
@@ -125,6 +138,30 @@ public class feed_main extends Fragment implements recycler_view_category_widget
                     Bundle bundle = new Bundle();
                     bundle.putString("userId", mViewModel.getUserIds().get(position));
                     NavHostFragment.findNavController(getParentFragment().getParentFragment()).navigate(R.id.action_mainFragment_to_SomeOneProfile, bundle);
+                }
+                else if(clickedViewId == R.id.like){
+                    LiveData<Boolean> resultLiveData = mViewModel.updateLike(mViewModel.getVerseIds().get(position),UserId);
+                    resultLiveData.observe(getViewLifecycleOwner(), containsCurrentUser -> {
+                        MutableLiveData<List<AdditionVerseInfo>> likeInfoLiveData = mViewModel.getAdditionVersesInfoData();
+                        AdditionVerseInfo newAddInfo =  additionVerseInfoList.get(position);
+                        if (containsCurrentUser != null && containsCurrentUser) {
+                            // Документ существует и содержит идентификатор текущего пользователя
+                            newAddInfo.setLiked(true);
+                            newAddInfo.setNumOfLikes(newAddInfo.getNumOfLikes() + 1);
+                        } else {
+                            // Документ не существует или не содержит идентификатор текущего пользователя
+                            newAddInfo.setLiked(false);
+                            newAddInfo.setNumOfLikes(newAddInfo.getNumOfLikes() - 1);
+                        }
+                        adapterPost.notifyItemChanged(position, newAddInfo);
+                    });
+                }
+                else if(clickedViewId == R.id.comment){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("User_Id",UserId);
+                    bundle.putString("Verse_Id", mViewModel.getVerseIds().get(position));
+                    NavHostFragment.findNavController(getParentFragment().getParentFragment())
+                            .navigate(R.id.action_mainFragment_to_CommentsFargment, bundle);
                 }
             }
         });

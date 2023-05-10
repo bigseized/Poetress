@@ -1,7 +1,6 @@
 package com.example.poetress.view_model;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +8,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.poetress.R;
 import com.example.poetress.data.types.ProfileVerse;
-import com.example.poetress.ui.profile.RecyclerView.ProfileViewHolder;
+import com.example.poetress.ui.some1_profile.SomeOneProfile;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.squareup.picasso.Picasso;
 
 public class versesRecyclerAdapter extends FirestoreRecyclerAdapter<ProfileVerse, versesRecyclerItemViewHolder>{
     Bitmap image;
+    MutableLiveData<Boolean> isClicked = new MutableLiveData<>();
     //adapter = new FirestoreRecyclerAdapter<ProfileVerse, ProfileViewHolder>(options) {
     public versesRecyclerAdapter(FirestoreRecyclerOptions<ProfileVerse> options){
         super(options);
@@ -41,6 +42,7 @@ public class versesRecyclerAdapter extends FirestoreRecyclerAdapter<ProfileVerse
         protected void onBindViewHolder(@NonNull versesRecyclerItemViewHolder holder, int position, @NonNull ProfileVerse verse) {
             //holder.ganre.setText(verse.getGenre_Verse());
             holder.name.setText(verse.getAuthor());
+
             holder.title.setText(verse.getName_Verse());
             holder.text.setText(verse.getText_Verse().replaceAll("\\\\n", "\n"));
             holder.image.setImageBitmap(this.image);
@@ -61,6 +63,9 @@ public class versesRecyclerAdapter extends FirestoreRecyclerAdapter<ProfileVerse
 
                 }
             });
+
+
+
             Log.d("my", "onBindViewHolder: successful added ");
         }
     };

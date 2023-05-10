@@ -43,66 +43,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text2" />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/text3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <CheckBox
-            android:id="@+id/like"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:button="@null"
-            android:background="@drawable/check_box_like"
-            android:checked="false"/>
-        <TextView
-            android:id="@+id/likes_counter"
-            app:layout_constraintStart_toEndOf="@id/like"
-            android:layout_marginStart="8dp"
-            android:textSize="18dp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-        <ImageView
-            android:id="@+id/comment"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:layout_constraintStart_toEndOf="@id/likes_counter"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_comment"/>
-        <TextView
-            android:id="@+id/comments_counter"
-            app:layout_constraintStart_toEndOf="@id/comment"
-            android:layout_marginStart="8dp"
-            android:textSize="18dp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
 
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/constraintLayout1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/text3"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+<!--        <CheckBox-->
+<!--            android:id="@+id/like"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:button="@null"-->
+<!--            android:background="@drawable/check_box_like"-->
+<!--            android:checked="false"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/likes_counter"-->
+<!--            app:layout_constraintStart_toEndOf="@id/like"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="0"/>-->
+<!--        <ImageView-->
+<!--            android:id="@+id/comment"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            app:layout_constraintStart_toEndOf="@id/likes_counter"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:src="@drawable/ic_comment"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/comments_counter"-->
+<!--            app:layout_constraintStart_toEndOf="@id/comment"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="0"/>-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/constraintLayout1"
+        app:layout_constraintTop_toBottomOf="@id/text3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 

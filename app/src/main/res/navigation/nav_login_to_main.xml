@@ -100,6 +100,9 @@
         <action
             android:id="@+id/action_SomeOneProfile_to_mainFragment"
             app:destination="@id/mainFragment"/>
+        <action
+            android:id="@+id/action_SomeOneProfile_to_CommentsFragment"
+            app:destination="@id/comments"/>
     </fragment>
 
     <fragment
@@ -116,6 +119,12 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/comments"
+        android:name="com.example.poetress.ui.CommentsFragment"
+        android:label="CommentsFragment">
     </fragment>
 
     <fragment
@@ -136,6 +145,9 @@
         <action
             android:id="@+id/action_mainFragment_to_ChatMainDialog"
             app:destination="@id/ChatMainDialog"/>
+        <action
+            android:id="@+id/action_mainFragment_to_CommentsFargment"
+            app:destination="@id/comments"/>
     </fragment>
 
 </navigation>
