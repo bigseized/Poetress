@@ -31,12 +31,12 @@ public class SomeOneProfile extends Fragment {
 
     private SomeOneProfileViewModel mViewModel;
     ProfileAnotherPersonBinding binding;
-    String Name, Surname;
+    String Name, Surname,UserID;
     Bitmap image;
     versesRecyclerAdapter adapter;
     RecyclerView versesRecycler;
-    String UserID;
     Uri uri;
+    int number;
 
 
     public static com.example.poetress.ui.some1_profile.SomeOneProfile newInstance() {return new com.example.poetress.ui.some1_profile.SomeOneProfile();}
@@ -54,6 +54,17 @@ public class SomeOneProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ProfileAnotherPersonBinding.inflate(inflater, container, false);
         mViewModel.loadData();
+        mViewModel.getVerses().observe(getViewLifecycleOwner(), data ->{
+            if (data != null){
+                binding.verses.setText(data.toString());
+            }
+        });
+        mViewModel.getFriends().observe(getViewLifecycleOwner(), data ->{
+            if (data != null){
+                binding.friends.setText(data.toString());
+            }
+        });
+
         mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
             if (!data.getImage_Profile().isEmpty()){
                 Picasso.get().load(Uri.parse(data.getImage_Profile())).into(binding.imageView);
@@ -115,6 +126,8 @@ public class SomeOneProfile extends Fragment {
 
             Toast.makeText(getActivity(),"Предложение отправленно", Toast.LENGTH_SHORT).show();
         });
+
+
 
         versesRecycler = binding.anotherProfileRecycler;
         versesRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));

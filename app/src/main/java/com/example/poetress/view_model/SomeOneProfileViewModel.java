@@ -16,11 +16,23 @@ public class SomeOneProfileViewModel extends ViewModel {
     private MutableLiveData<UserMainData> data = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private MutableLiveData<String> error = new MutableLiveData<>();
+    private MutableLiveData<Integer> friends;
+    private MutableLiveData<Integer> verses;
     private FirestoreRecyclerOptions<ProfileVerse> options;
     private versesRecyclerAdapter adapter;
 
     public SomeOneProfileViewModel(){
+        friends = repository.getFriends();
+        verses = repository.getVerses();
 
+    }
+
+    public MutableLiveData<Integer> getFriends() {
+        return friends;
+    }
+
+    public MutableLiveData<Integer> getVerses() {
+        return verses;
     }
 
     public void setParams(String UserId){
@@ -58,6 +70,7 @@ public class SomeOneProfileViewModel extends ViewModel {
 
     public void setUserIdRepository(String userId){
         repository.setUserID(userId);
+        repository.getNumbers();
     }
 
     public LiveData<UserMainData> getData() {

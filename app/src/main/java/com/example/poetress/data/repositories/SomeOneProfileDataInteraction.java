@@ -2,11 +2,14 @@ package com.example.poetress.data.repositories;
 
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.poetress.data.types.UserMainData;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 
@@ -14,9 +17,37 @@ public class SomeOneProfileDataInteraction {
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     String userID;
+    MutableLiveData<Integer> friends = new MutableLiveData<>();
+    MutableLiveData<Integer> verses = new MutableLiveData<>();
+
     public SomeOneProfileDataInteraction(){
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    public void getNumbers(){
+        firebaseFirestore.collection("User_Data").document(userID)
+                .collection("User_Verses").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        verses.postValue(queryDocumentSnapshots.size());
+                    }
+                });
+        firebaseFirestore.collection("User_Data").document(userID)
+                .collection("Friends").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        friends.postValue(queryDocumentSnapshots.size());
+                    }
+                });
+    }
+
+    public MutableLiveData<Integer> getFriends() {
+        return friends;
+    }
+
+    public MutableLiveData<Integer> getVerses() {
+        return verses;
     }
 
     public void setUserID(String userID) {
@@ -31,7 +62,7 @@ public class SomeOneProfileDataInteraction {
 
         if (!userID.equals(firebaseAuth.getUid())) {
             firebaseFirestore.collection("User_Data").document(firebaseAuth.getUid())
-                    .collection("Friends").add(data);
+                    .collection("Friends").document(ID).set(data);
         }
         else{
             Log.d("firestore", "putFriendToFirebase: Failed add themself");

@@ -30,6 +30,7 @@ public class UserMainDataInteraction {
     FirebaseAuth firebaseAuth;
     StorageReference storageReference;
     MutableLiveData<List<AdditionVerseInfo>> additionVerseLD = new MutableLiveData<>();
+    MutableLiveData<Boolean> isSended = new MutableLiveData<>();
 
     public UserMainDataInteraction(){
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -118,15 +119,47 @@ public class UserMainDataInteraction {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Log.d("firestore", "onSuccess: Image Uploaded");
-                                Map<String, Object> data = userMainData.getHashMap(uri.toString());
-                                firebaseFirestore.collection("User_Data").document(firebaseAuth.getUid()).set(data).addOnSuccessListener(
-                                        new OnSuccessListener<Void>() {
+                                Map<String, Object> data;
+                                if(userMainData.getName().equals("") || userMainData.getSurname().equals("")){
+                                    data = userMainData.getUpdateHashMap(uri.toString());
+
+                                }else {
+                                    data = userMainData.getHashMap(uri.toString());
+                                }
+                                firebaseFirestore.collection("User_Data").document(firebaseAuth.getUid()).get().addOnCompleteListener(task -> {
+                                    if (task.getResult().exists()){
+                                        firebaseFirestore.collection("User_Data").document(firebaseAuth.getUid()).update(data).addOnSuccessListener(
+                                                new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        Log.d("firestore", "onSuccess: Data uploaded");
+                                                        isSended.postValue(true);
+                                                    }
+                                                }
+                                        ).addOnFailureListener(new OnFailureListener() {
                                             @Override
-                                            public void onSuccess(Void unused) {
-                                                Log.d("firestore", "onSuccess: Data uploaded");
+                                            public void onFailure(@NonNull Exception e) {
+                                                isSended.postValue(false);
                                             }
-                                        }
-                                );
+                                        });
+                                    }else{
+                                        firebaseFirestore.collection("User_Data").document(firebaseAuth.getUid()).set(data).addOnSuccessListener(
+                                                new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        isSended.postValue(true);
+                                                        Log.d("firestore", "onSuccess: Data uploaded");
+                                                    }
+                                                }
+                                        ).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                isSended.postValue(false);
+                                            }
+                                        });
+                                    }
+                                });
+
                             }
                         });
                         Log.d("firestore", "onSuccess: Image Uploaded");
@@ -136,10 +169,15 @@ public class UserMainDataInteraction {
                 new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        isSended.postValue(false);
                         Log.d("firestore", "onFailure: Upload Failed");
                     }
                 }
         );
+    }
+
+    public MutableLiveData<Boolean> getIsSended() {
+        return isSended;
     }
 
     public void deleteVerse(String documentId, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {

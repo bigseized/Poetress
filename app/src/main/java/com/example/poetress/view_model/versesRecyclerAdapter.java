@@ -42,7 +42,6 @@ public class versesRecyclerAdapter extends FirestoreRecyclerAdapter<ProfileVerse
         protected void onBindViewHolder(@NonNull versesRecyclerItemViewHolder holder, int position, @NonNull ProfileVerse verse) {
             //holder.ganre.setText(verse.getGenre_Verse());
             holder.name.setText(verse.getAuthor());
-
             holder.title.setText(verse.getName_Verse());
             holder.text.setText(verse.getText_Verse().replaceAll("\\\\n", "\n"));
             holder.image.setImageBitmap(this.image);

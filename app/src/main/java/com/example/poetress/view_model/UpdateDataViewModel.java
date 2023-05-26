@@ -1,6 +1,7 @@
 package com.example.poetress.view_model;
 
 import android.net.Uri;
+import android.text.BoringLayout;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,10 +12,16 @@ import com.example.poetress.data.repositories.UserMainDataInteraction;
 
 
 public class UpdateDataViewModel extends ViewModel {
-    private UserMainDataInteraction repository = new UserMainDataInteraction();
+    private UserMainDataInteraction repository;
     private MutableLiveData<UserMainData> data = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private MutableLiveData<String> error = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSended = new MutableLiveData<>();
+
+    public UpdateDataViewModel() {
+        repository = new UserMainDataInteraction();
+        isSended = repository.getIsSended();
+    }
 
     public void loadData() {
         isLoading.setValue(true);
@@ -33,6 +40,10 @@ public class UpdateDataViewModel extends ViewModel {
         });
     }
 
+    public MutableLiveData<Boolean> getIsSended(){
+        return isSended;
+    }
+
     public LiveData<UserMainData> getData() {
         return data;
     }
@@ -47,7 +58,7 @@ public class UpdateDataViewModel extends ViewModel {
 
     public void sendData(Uri Image, String name, String surname, String Interests){
         UserMainData userMainData = new UserMainData(Image,name,surname,Interests);
-        new UserMainDataInteraction().putDataToFirebase(userMainData);
+        repository.putDataToFirebase(userMainData);
     }
 
     public boolean checkData(UserMainData userMainData){

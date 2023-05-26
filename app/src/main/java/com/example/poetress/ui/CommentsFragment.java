@@ -1,10 +1,13 @@
 package com.example.poetress.ui;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,8 +63,10 @@ public class CommentsFragment extends Fragment {
 
     }
 
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = CommentsFragmentBinding.inflate(inflater, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         send = binding.sendCommentButton;
         text = binding.sendComment;
         backButton = binding.backButton;
@@ -69,6 +74,8 @@ public class CommentsFragment extends Fragment {
         Verse_Id = getArguments().getString("Verse_Id");
         mViewModel = new ViewModelProvider(this).get(CommentsViewModel.class);
         mViewModel.loadComments(User_Id,Verse_Id);
+
+
 
         adapter = new CommentsAdapter(mViewModel);
 
@@ -86,6 +93,11 @@ public class CommentsFragment extends Fragment {
         });
 
         backButton.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            View view = requireActivity().getCurrentFocus();
+            if (view != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
             NavHostFragment.findNavController(this).popBackStack();
         });
 
@@ -127,11 +139,14 @@ public class CommentsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.poetress.ui.sign_up_sign_in;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -38,7 +41,7 @@ public class UpdateDataFragment extends Fragment {
     EditText name,surname, interests;
     ImageView Image;
     Uri ImageUri;
-    Boolean flag = false;
+    Boolean flag = false, update;
     final static int PICK_PHOTO_FOR_AVATAR = 1;
 
     @Override
@@ -53,6 +56,20 @@ public class UpdateDataFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = UpdateUserDataBinding.inflate(inflater);
+        try {
+            update = getArguments().getBoolean("update");
+
+        } catch (NullPointerException e){
+
+        }
+
+        if (update){
+            binding.setSurnameUser.setVisibility(View.GONE);
+            binding.setNameUser.setVisibility(View.GONE);
+        }else{
+            binding.setSurnameUser.setVisibility(View.VISIBLE);
+            binding.setNameUser.setVisibility(View.VISIBLE);
+        }
         progressBar = binding.progressBar;
         progressBar.setIndeterminate(true);
         linearLayout = binding.linearLayout;
@@ -66,6 +83,8 @@ public class UpdateDataFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(UpdateDataViewModel.class);
 
+
+
     }
 
     @Override
@@ -78,6 +97,24 @@ public class UpdateDataFragment extends Fragment {
         Image = binding.setImage;
         interests = binding.setInterestUser;
 
+        mViewModel.getIsSended().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_updateInfoFragment_to_new_graph);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    linearLayout.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Toast.makeText(getActivity(),"Ошибка публикации", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    linearLayout.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+
         binding.setImage.setOnClickListener(v ->{
             try {
                 pickImage();
@@ -87,22 +124,24 @@ public class UpdateDataFragment extends Fragment {
         });
         binding.postForm.setOnClickListener(v -> {
             if (checkEdit()){
+                InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                View view1 = requireActivity().getCurrentFocus();
+                if (view1 != null) {
+                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+                }
                 progressBar.setVisibility(View.VISIBLE);
                 linearLayout.setVisibility(View.GONE);
                 mViewModel.sendData(ImageUri,name.getText().toString(),surname.getText().toString(), interests.getText().toString());
-                NavHostFragment.findNavController(this).navigate(R.id.action_updateInfoFragment_to_new_graph);
-                progressBar.setVisibility(View.GONE);
-                linearLayout.setVisibility(View.VISIBLE);
             }
         });
     }
     private boolean checkEdit(){
         boolean flag = true;
-        if (name.getText().toString().isEmpty()) {
+        if (name.getText().toString().isEmpty() && !update) {
             name.setError("Обязательное поле");
             flag = false;
         }
-        if (surname.getText().toString().isEmpty()){
+        if (surname.getText().toString().isEmpty() && !update){
             surname.setError("Обязательное поле");
             flag = false;
         }

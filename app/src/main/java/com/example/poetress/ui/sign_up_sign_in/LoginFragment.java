@@ -1,11 +1,13 @@
 package com.example.poetress.ui.sign_up_sign_in;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -54,7 +56,9 @@ public class LoginFragment extends Fragment {
             mViewModel.loadData();
             mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
                 if ((data.getSurname().isEmpty() || data.getName().isEmpty())){
-                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("update", false);
+                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info, bundle);
                 }
                 else{
                     NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_new_graph);
@@ -62,7 +66,9 @@ public class LoginFragment extends Fragment {
             });
             mViewModel.getError().observe(getViewLifecycleOwner(), error -> {
                 if (error != null && error.equals("Document does not exist")) {
-                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("update", false);
+                    NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_info,bundle);
                 }
                 else{
                     NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_new_graph);
@@ -93,6 +99,11 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
             binding.btnIn.setOnClickListener(v-> {
+                InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                View view1 = requireActivity().getCurrentFocus();
+                if (view1 != null) {
+                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+                }
                 progressBar.setVisibility(View.VISIBLE);
                 allItems.setVisibility(View.INVISIBLE);
                 try {

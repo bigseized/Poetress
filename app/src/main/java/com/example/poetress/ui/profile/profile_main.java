@@ -50,6 +50,7 @@ public class profile_main extends Fragment {
     ProfileVersesAdapter adapter;
     TextView bd_title,bd_text;
     FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
     String User_UID;
     String documentId;
     AlertDialog.Builder builder;
@@ -59,9 +60,7 @@ public class profile_main extends Fragment {
     ImageView settings;
     int adapterPosition;
     FragmentProfileMainBinding binding;
-    ProgressBar progressBarAva, progressBarVerse;
-
-    private FirebaseFirestore firebaseFirestore;
+    ProgressBar progressBarVerse;
     private RecyclerView mFirestorelist;
 
     public static profile_main newInstance() {
@@ -106,6 +105,7 @@ public class profile_main extends Fragment {
                 Picasso.get().load(Uri.parse(data.getImage_Profile())).into(binding.imageView);
                 uri = Uri.parse(data.getImage_Profile());
                 adapter.setUri(uri);
+                adapter.notifyDataSetChanged();
             }
             binding.text.setText(data.getName() + " " + data.getSurname());
             binding.text3.setText("Интересы: " + data.getInterests());

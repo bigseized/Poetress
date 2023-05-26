@@ -40,6 +40,14 @@ public class UserMainData {
                 data.put("Interests", Interests);
                 return data;
         }
+
+        public Map<String, Object> getUpdateHashMap(String downloadURL){
+                Map<String, Object> data = new HashMap<>();
+                data.put("Image_Profile", downloadURL);
+                data.put("Interests", Interests);
+                return data;
+        }
+
         public String getName() {
                 return Name;
         }

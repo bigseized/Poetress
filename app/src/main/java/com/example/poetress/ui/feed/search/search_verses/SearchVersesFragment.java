@@ -1,9 +1,11 @@
 package com.example.poetress.ui.feed.search.search_verses;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -42,6 +44,11 @@ public class SearchVersesFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.action_searchVerses_to_searchAuthors);
         });
         back_btn.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            View view1 = requireActivity().getCurrentFocus();
+            if (view1 != null) {
+                imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+            }
             NavHostFragment.findNavController(this).navigate(R.id.action_searchVerses_to_main);
         });
     }

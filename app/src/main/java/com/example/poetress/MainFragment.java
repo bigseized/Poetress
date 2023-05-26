@@ -21,6 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainFragment extends Fragment {
 
     private MainFragmentBinding binding;
+    BottomNavigationView navigationBar;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -32,7 +34,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         NavHostFragment navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         NavController navController =navHostFragment.getNavController();
-        BottomNavigationView navigationBar = binding.navView;
+        navigationBar = binding.navView;
         NavigationUI.setupWithNavController(navigationBar, navController);
         NavOptions navOptions = new NavOptions.Builder()
                 .setEnterAnim(R.anim.slide_in_left)
@@ -55,5 +57,7 @@ public class MainFragment extends Fragment {
                 }
             }
         });
+
+
     }
 }

@@ -1,9 +1,13 @@
 package com.example.poetress.ui.feed.search.search_authors;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -23,6 +27,7 @@ public class SearchAuthorsFragment extends Fragment {
     SearchAuthorsViewModel mViewModel;
     Button verses;
     ImageView back_btn;
+    AlertDialog.Builder builder;
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
@@ -31,6 +36,16 @@ public class SearchAuthorsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FeedSearchFragmentAuthorsBinding.inflate(inflater, container, false);
+        builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Подтверждение действия");
+        builder.setMessage("Раздел в разработке!");
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.create();
+        builder.show();
         return binding.getRoot();
     }
 
@@ -42,6 +57,11 @@ public class SearchAuthorsFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.action_searchAuthor_to_searchVerses);
         });
         back_btn.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            View view1 = requireActivity().getCurrentFocus();
+            if (view1 != null) {
+                imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+            }
             NavHostFragment.findNavController(this).navigate(R.id.action_searchAutors_to_main);
         });
     }

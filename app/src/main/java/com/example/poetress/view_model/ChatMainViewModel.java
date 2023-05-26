@@ -13,6 +13,8 @@ public class ChatMainViewModel extends ViewModel {
     private ChatMainGetData repository;
     private LiveData<List<SimpleUserData>> chatsLiveData;
 
+
+
     ChatMainViewModel(){
         repository = new ChatMainGetData();
         chatsLiveData = repository.getChats();

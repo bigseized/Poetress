@@ -16,13 +16,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.poetress.R;
 import com.example.poetress.databinding.FragmentProfileSettingsBinding;
 import com.example.poetress.view_model.SettingsViewModel;
+import com.example.poetress.view_model.SomeOneProfileViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragment extends Fragment {
     ImageView backButton;
     Button exit, updataData;
     private SettingsViewModel mViewModel;
-    FirebaseAuth firebaseAuth;
     FragmentProfileSettingsBinding binding;
 
     public static SettingsFragment newInstance() {
@@ -32,7 +32,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        firebaseAuth = FirebaseAuth.getInstance();
+        mViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         binding = FragmentProfileSettingsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -47,11 +47,13 @@ public class SettingsFragment extends Fragment {
             NavHostFragment.findNavController(this).popBackStack();
         });
         exit.setOnClickListener(v -> {
-            firebaseAuth.signOut();
+            mViewModel.SignOut();
             NavHostFragment.findNavController(this).navigate(R.id.action_Settings_to_Login);
         });
         updataData.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(R.id.action_Settings_to_UpdateData);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("update", true);
+            NavHostFragment.findNavController(this).navigate(R.id.action_Settings_to_UpdateData, bundle);
         });
 
     }
