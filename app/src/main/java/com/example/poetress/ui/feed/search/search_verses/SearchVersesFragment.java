@@ -18,7 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.poetress.R;
 import com.example.poetress.databinding.FeedSearchFragmentVersesBinding;
 import com.example.poetress.ui.profile.Settings.SettingsFragment;
-import com.example.poetress.view_model.SearchVersesViewModel;
+import com.example.poetress.view_model.feed.SearchVersesViewModel;
 
 public class SearchVersesFragment extends Fragment {
     FeedSearchFragmentVersesBinding binding;

@@ -20,7 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.poetress.R;
 import com.example.poetress.databinding.FeedSearchFragmentAuthorsBinding;
 import com.example.poetress.ui.profile.Settings.SettingsFragment;
-import com.example.poetress.view_model.SearchAuthorsViewModel;
+import com.example.poetress.view_model.feed.SearchAuthorsViewModel;
 
 public class SearchAuthorsFragment extends Fragment {
     FeedSearchFragmentAuthorsBinding binding;
@@ -39,7 +39,7 @@ public class SearchAuthorsFragment extends Fragment {
         builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Подтверждение действия");
         builder.setMessage("Раздел в разработке!");
-        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }

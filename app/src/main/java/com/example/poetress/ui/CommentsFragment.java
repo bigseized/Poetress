@@ -10,12 +10,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -24,25 +22,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.poetress.R;
-import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.Comment;
-import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.databinding.CommentsFragmentBinding;
-import com.example.poetress.databinding.SimpleImageFragmentBinding;
-import com.example.poetress.view_model.ChatMainViewModel;
-import com.example.poetress.view_model.CommentsAdapter;
-import com.example.poetress.view_model.CommentsViewModel;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.Query;
-import com.squareup.picasso.Picasso;
-
-import org.checkerframework.checker.units.qual.C;
+import com.example.poetress.view_model.adapters.CommentsAdapter;
+import com.example.poetress.view_model.feed.CommentsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CommentsFragment extends Fragment {
     CommentsFragmentBinding binding;

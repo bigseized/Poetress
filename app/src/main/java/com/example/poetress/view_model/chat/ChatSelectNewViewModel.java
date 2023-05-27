@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.chat;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

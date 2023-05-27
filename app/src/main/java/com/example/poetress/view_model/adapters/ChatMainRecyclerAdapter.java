@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.adapters;
 
 import android.net.Uri;
 import android.util.Log;
@@ -17,10 +17,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ChatSelectNewRecyclerAdapter extends RecyclerView.Adapter<ChatSelectNewRecyclerAdapter.ChatSelectNewRecyclerViewHolder> {
+public class ChatMainRecyclerAdapter extends RecyclerView.Adapter<ChatMainRecyclerAdapter.ChatMainRecyclerViewHolder> {
     List<SimpleUserData> model;
-    private static ChatSelectNewRecyclerViewHolder.ClickListener clickListener;
-    public ChatSelectNewRecyclerAdapter(){}
+    private static ChatMainRecyclerViewHolder.ClickListener clickListener;
+    public ChatMainRecyclerAdapter(){}
 
     public void setData(List<SimpleUserData> userData){
         this.model = userData;
@@ -30,17 +30,16 @@ public class ChatSelectNewRecyclerAdapter extends RecyclerView.Adapter<ChatSelec
 
     @NonNull
     @Override
-    public ChatSelectNewRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_new_chat_recycler_item, parent, false);
-        return new ChatSelectNewRecyclerViewHolder(view);
+    public ChatMainRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_recycler_peoples_item, parent, false);
+        return new ChatMainRecyclerViewHolder(view);
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull ChatSelectNewRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChatMainRecyclerViewHolder holder, int position) {
         Picasso.get().load(Uri.parse(model.get(position).getImage_Profile())).into(holder.image);
-        holder.nameSurname.setText(model.get(position).getName() + model.get(position).getSurname());
-        holder.setOnClickListener(new ChatSelectNewRecyclerViewHolder.ClickListener() {
+        holder.nameSurname.setText(model.get(position).getName() + " " +  model.get(position).getSurname());
+        holder.setOnClickListener(new ChatMainRecyclerViewHolder.ClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Log.d("my", "onItemClick: clicked");
@@ -58,14 +57,14 @@ public class ChatSelectNewRecyclerAdapter extends RecyclerView.Adapter<ChatSelec
         return model == null ? 0 : model.size();
     }
 
-    public void setOnItemClickListener(ChatSelectNewRecyclerViewHolder.ClickListener clickListener) {
+    public void setOnItemClickListener(ChatMainRecyclerViewHolder.ClickListener clickListener) {
         this.clickListener = clickListener;
     }
-    public static class ChatSelectNewRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public static class ChatMainRecyclerViewHolder extends RecyclerView.ViewHolder {
         public TextView nameSurname;
         public ImageView image;
 
-        public ChatSelectNewRecyclerViewHolder(@NonNull View itemView) {
+        public ChatMainRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,5 +104,4 @@ public class ChatSelectNewRecyclerAdapter extends RecyclerView.Adapter<ChatSelec
             this.mClickListener = clickListener;
         }
     }
-
-}
+    }

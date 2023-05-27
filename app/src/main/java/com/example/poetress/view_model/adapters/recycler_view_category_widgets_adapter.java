@@ -1,4 +1,4 @@
-package com.example.poetress.view_model.feed;
+package com.example.poetress.view_model.adapters;
 
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.poetress.R;
 
 import java.util.List;
-
+// Этот адаптер нужен для просмотра стихов по категориям, находится в разработке
 public class recycler_view_category_widgets_adapter extends RecyclerView.Adapter<recycler_view_category_widgets_adapter.ViewHolder> {
 
     private List<String> mData;

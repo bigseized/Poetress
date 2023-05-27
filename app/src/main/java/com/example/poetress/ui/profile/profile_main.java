@@ -16,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -27,18 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
 import com.example.poetress.data.types.AdditionVerseInfo;
-import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.databinding.FragmentProfileMainBinding;
 import com.example.poetress.ui.ImageFragment;
-import com.example.poetress.view_model.ProfileMainViewModel;
-import com.example.poetress.view_model.ProfileVersesAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.example.poetress.view_model.profile.ProfileMainViewModel;
+import com.example.poetress.view_model.adapters.ProfileVersesAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,8 +42,6 @@ public class profile_main extends Fragment {
     private ProfileMainViewModel mViewModel;
     ProfileVersesAdapter adapter;
     TextView bd_title,bd_text;
-    FirebaseAuth firebaseAuth;
-    private FirebaseFirestore firebaseFirestore;
     String User_UID;
     String documentId;
     AlertDialog.Builder builder;
@@ -95,10 +86,6 @@ public class profile_main extends Fragment {
         progressBarVerse = binding.progressBarVerses;
         mFirestorelist = binding.profileRecycler;
 
-//        progressBarVerse.setVisibility(View.VISIBLE);
-//        mFirestorelist.setVisibility(View.INVISIBLE);
-
-
         mViewModel.loadData();
         mViewModel.getData().observe(getViewLifecycleOwner(), data -> {
             if (!data.getImage_Profile().isEmpty()){
@@ -111,32 +98,17 @@ public class profile_main extends Fragment {
             binding.text3.setText("Интересы: " + data.getInterests());
         });
 
-
-
         binding.profileRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
 
         mFirestorelist.setItemAnimator(null);
         mFirestorelist.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         mFirestorelist.setNestedScrollingEnabled(false);
 
-        User_UID = firebaseAuth.getCurrentUser().getUid();
-        Query query = firebaseFirestore.collection("User_Data").document(User_UID).collection("User_Verses").orderBy("Date_Verse", Query.Direction.DESCENDING);
-        query.get().addOnCompleteListener(task -> {
-            if (task.getResult().isEmpty()){
-                progressBarVerse.setVisibility(View.INVISIBLE);
-                mFirestorelist.setVisibility(View.VISIBLE);
+        User_UID = mViewModel.getUID();
+        mViewModel.setRecyclerData(User_UID);
+        adapter = mViewModel.getAdapter();
 
-            }
-        });
-
-        FirestoreRecyclerOptions<ProfileVerse> options =
-                new FirestoreRecyclerOptions.Builder<ProfileVerse>()
-                        .setQuery(query, ProfileVerse.class)
-                        .build();
-        adapter = new ProfileVersesAdapter(options, mViewModel);
 
         mViewModel.getAdditionVersesInfoData().observe(getViewLifecycleOwner(), new Observer<List<AdditionVerseInfo>>() {
 
@@ -146,9 +118,7 @@ public class profile_main extends Fragment {
                 adapter.setListAdd(additionVerseInfoList);
                 mFirestorelist.getRecycledViewPool().clear();
                 adapter.notifyDataSetChanged();
-                //adapter.notifyItemRangeChanged();
                 additionList = additionVerseInfoList;
-
             }
         });
 
@@ -173,6 +143,8 @@ public class profile_main extends Fragment {
                         bottomSheetDialog.show();
                         break;
                     case R.id.like:
+                        //Реализация лайков и комментариев в собственном профиле(разрботка)
+
 //                        LiveData<Boolean> resultLiveData = mViewModel.updateLike(mViewModel.getVerseIds().get(position),UserId);
 //                        resultLiveData.observe(getViewLifecycleOwner(), containsCurrentUser -> {
 //                            MutableLiveData<List<AdditionVerseInfo>> likeInfoLiveData = mViewModel.getAdditionVersesInfoData();
@@ -196,10 +168,6 @@ public class profile_main extends Fragment {
 
         mFirestorelist.setHasFixedSize(false);
         mFirestorelist.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
-
-
         return binding.getRoot();
     }
 
@@ -251,7 +219,6 @@ public class profile_main extends Fragment {
         }, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

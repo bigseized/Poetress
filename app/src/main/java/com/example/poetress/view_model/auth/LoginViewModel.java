@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.auth;
 
 import android.net.Uri;
 
@@ -6,14 +6,30 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.poetress.data.repositories.AuthentificationInteraction;
 import com.example.poetress.data.repositories.UserMainDataInteraction;
 import com.example.poetress.data.types.UserMainData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.AuthResult;
 
 public class LoginViewModel extends ViewModel {
     private UserMainDataInteraction repository = new UserMainDataInteraction();
+    AuthentificationInteraction authRepository;
     private MutableLiveData<UserMainData> data = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private MutableLiveData<String> error = new MutableLiveData<>();
+
+    public LoginViewModel() {
+        authRepository = new AuthentificationInteraction();
+    }
+
+    public boolean check(){
+        return authRepository.check();
+    }
+
+    public void signInWithEmailAndPassword(String email, String password, OnCompleteListener<AuthResult> onCompleteListener){
+        authRepository.signInWithEmailAndPassword(email, password, onCompleteListener);
+    }
 
     public void loadData() {
         isLoading.setValue(true);

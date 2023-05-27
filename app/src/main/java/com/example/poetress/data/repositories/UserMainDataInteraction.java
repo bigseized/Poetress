@@ -39,6 +39,10 @@ public class UserMainDataInteraction {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    public String getUID(){
+        return firebaseAuth.getUid();
+    }
+
     public void loadAdditionInfo(){
         firebaseFirestore.collection("User_Data").document(firebaseAuth.getUid())
                 .collection("User_Verses").orderBy("Date_Verse", Query.Direction.DESCENDING)
@@ -105,7 +109,6 @@ public class UserMainDataInteraction {
 
     public interface OnFirestoreDataCallback<T> {
         void onCallback(T data);
-
         void onError(Exception e);
     }
 

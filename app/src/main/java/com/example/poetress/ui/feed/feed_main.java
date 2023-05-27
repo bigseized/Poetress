@@ -20,21 +20,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.poetress.MainFragment;
 import com.example.poetress.R;
 import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.data.types.RawVerse;
 import com.example.poetress.databinding.FragmentFeedMainBinding;
-import com.example.poetress.ui.create.CategoryDialog.recycler_view_category_adapter;
 import com.example.poetress.view_model.feed.FeedMainViewModel;
-import com.example.poetress.view_model.feed.UserVersesAdapter;
-import com.example.poetress.view_model.feed.recycler_view_category_widgets_adapter;
+import com.example.poetress.view_model.adapters.UserVersesAdapter;
+import com.example.poetress.view_model.adapters.recycler_view_category_widgets_adapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -92,6 +89,7 @@ public class feed_main extends Fragment implements recycler_view_category_widget
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
+
         mViewModel.getAdditionVersesInfoData().observe(getViewLifecycleOwner(), new Observer<List<AdditionVerseInfo>>() {
             @Override
             public void onChanged(List<AdditionVerseInfo> additionVerseInfo) {
@@ -100,6 +98,7 @@ public class feed_main extends Fragment implements recycler_view_category_widget
             }
         });
 
+        //необходимо для реализации пагинации(подгрузки стихов порциями)
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

@@ -17,16 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.poetress.R;
 import com.example.poetress.data.types.SimpleUserData;
-import com.example.poetress.databinding.ChatDialogBinding;
 import com.example.poetress.databinding.FragmentChatMainBinding;
-import com.example.poetress.view_model.ChatMainRecyclerAdapter;
-import com.example.poetress.view_model.ChatMainViewModel;
-import com.example.poetress.view_model.ChatSelectNewViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.poetress.view_model.adapters.ChatMainRecyclerAdapter;
+import com.example.poetress.view_model.chat.ChatMainViewModel;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.create;
 
 import androidx.lifecycle.ViewModel;
 

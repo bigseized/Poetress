@@ -21,12 +21,7 @@ import android.widget.Toast;
 
 import com.example.poetress.databinding.FragmentCreateMainBinding;
 import com.example.poetress.ui.create.CategoryDialog.FragmentCategoryDialog;
-import com.example.poetress.view_model.CreateMainViewModel;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.example.poetress.view_model.create.CreateMainViewModel;
 
 public class create_main extends Fragment {
 
@@ -36,11 +31,6 @@ public class create_main extends Fragment {
     ImageView create;
     TextView title, verse, category;
     TextView text1;
-
-    //public static create_main newInstance() {
-        //return new create_main();
-    //}
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

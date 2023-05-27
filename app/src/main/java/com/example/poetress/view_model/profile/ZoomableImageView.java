@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.profile;
 
 import android.content.Context;
 import android.graphics.Matrix;

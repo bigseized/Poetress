@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.feed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.poetress.data.repositories.SomeOneProfileDataInteraction;
 import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.data.types.UserMainData;
+import com.example.poetress.view_model.adapters.versesRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;

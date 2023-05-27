@@ -1,15 +1,12 @@
-package com.example.poetress.view_model.feed;
+package com.example.poetress.view_model.adapters;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,7 +19,7 @@ import com.example.poetress.data.repositories.FeedVersesGetData;
 import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.data.types.RawVerse;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.example.poetress.view_model.feed.FeedMainViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

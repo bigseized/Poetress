@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.adapters;
 
 import android.net.Uri;
 import android.util.Log;
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.poetress.R;
 import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.ProfileVerse;
+import com.example.poetress.view_model.profile.ProfileMainViewModel;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.squareup.picasso.Picasso;
@@ -37,6 +38,7 @@ public class ProfileVersesAdapter extends FirestoreRecyclerAdapter<ProfileVerse,
         Verses = new ArrayList<>();
         this.mViewModel = mViewModel;
     }
+
 
     public ProfileVerse getVerses(int position) {
         return Verses.get(position);

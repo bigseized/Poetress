@@ -1,32 +1,21 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.adapters;
 
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poetress.R;
-import com.example.poetress.data.repositories.CommentsDataInteraction;
-import com.example.poetress.data.repositories.FeedVersesGetData;
-import com.example.poetress.data.types.AdditionVerseInfo;
 import com.example.poetress.data.types.Comment;
-import com.example.poetress.data.types.ProfileVerse;
 import com.example.poetress.data.types.RawVerse;
-import com.example.poetress.view_model.feed.FeedMainViewModel;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.example.poetress.view_model.feed.CommentsViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,7 +25,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     private List<Comment> comments = new ArrayList<>();
     private List<String> userId = new ArrayList<>();
-    private com.example.poetress.view_model.feed.UserVersesAdapter.OnItemClickListener listener;
+    private UserVersesAdapter.OnItemClickListener listener;
     CommentsViewModel viewModel;
 
     public interface OnItemClickListener {
@@ -74,7 +63,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         return comments.size();
     }
 
-    public void setOnItemClickListener(com.example.poetress.view_model.feed.UserVersesAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(UserVersesAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
 

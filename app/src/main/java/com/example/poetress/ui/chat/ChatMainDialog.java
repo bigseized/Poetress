@@ -19,18 +19,16 @@ import com.example.poetress.data.repositories.ChatDialogDataInteraction;
 import com.example.poetress.data.types.Message;
 import com.example.poetress.data.types.SimpleUserData;
 import com.example.poetress.databinding.ChatDialogBinding;
-import com.example.poetress.view_model.ChatMainDialogRecyclerAdapter;
-import com.example.poetress.view_model.ChatMainDialogViewModel;
+import com.example.poetress.view_model.adapters.ChatMainDialogRecyclerAdapter;
+import com.example.poetress.view_model.chat.ChatMainDialogViewModel;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public class ChatMainDialog extends Fragment {
@@ -42,7 +40,6 @@ public class ChatMainDialog extends Fragment {
     String ImageSender;
     RecyclerView recyclerView;
     ChatMainDialogRecyclerAdapter adapter;
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     Message message;
 
     public static chat_main newInstance() {
@@ -94,7 +91,7 @@ public class ChatMainDialog extends Fragment {
         LinearLayoutManager linearLayout = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         linearLayout.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayout);
-        listenMessages();
+        mViewModel.setListener(eventListener, mViewModel.getID(), simpleUserData.getID());
         return binding.getRoot();
     }
 
@@ -145,15 +142,6 @@ public class ChatMainDialog extends Fragment {
             }
         }
     });
-
-    private void listenMessages(){
-        firestore.collection("ChatData").whereEqualTo("SenderId", mViewModel.getID())
-                .whereEqualTo("ReceiverId", simpleUserData.getID())
-                .addSnapshotListener(eventListener);
-        firestore.collection("ChatData").whereEqualTo("SenderId", simpleUserData.getID())
-                .whereEqualTo("ReceiverId",  mViewModel.getID())
-                .addSnapshotListener(eventListener);
-    }
 
 
 }

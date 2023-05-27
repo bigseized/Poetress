@@ -1,7 +1,6 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.profile;
 
 import android.net.Uri;
-import android.text.BoringLayout;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

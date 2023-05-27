@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.adapters;
 
 import android.net.Uri;
 import android.view.LayoutInflater;

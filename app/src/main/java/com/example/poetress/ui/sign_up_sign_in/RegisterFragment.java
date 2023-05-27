@@ -19,17 +19,15 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.poetress.R;
 import com.example.poetress.databinding.RegisterFormBinding;
-import com.example.poetress.view_model.RegisterViewModel;
+import com.example.poetress.view_model.auth.RegisterViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterFragment extends Fragment {
 
     private RegisterViewModel mViewModel;
     private RegisterFormBinding binding;
-    FirebaseAuth firebaseAuth;
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
-    String regex;
     private EditText email,password, password_repeat;
 
     public static RegisterFragment newInstance() {
@@ -56,8 +54,7 @@ public class RegisterFragment extends Fragment {
         email = binding.etEmail;
         password = binding.etPass;
         password_repeat = binding.passRepeat;
-        firebaseAuth = FirebaseAuth.getInstance();
-        if (firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
+        if (mViewModel.check()){
             NavHostFragment.findNavController(this).navigate(R.id.action_registerFragment_to_new_graph);
         }
     }
@@ -71,10 +68,10 @@ public class RegisterFragment extends Fragment {
             if (passwordCheck(password.getText().toString().trim(), password_repeat.getText().toString().trim())) {
                 constraintLayout.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                firebaseAuth.createUserWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(task -> {
+                mViewModel.createUserWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim(), (task -> {
                     if (task.isSuccessful()) {
                         Log.d("Register", "Create: successful");
-                        firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
+                        mViewModel.sendEmailVerification((task1 -> {
                             if (task1.isSuccessful()) {
                                 Toast.makeText(getActivity().getApplicationContext(), "Письмо с подтверждением отправленно", Toast.LENGTH_SHORT).show();
                                 NavHostFragment.findNavController(this).navigate(R.id.action_registerFragment_to_loginFragment);
@@ -88,7 +85,7 @@ public class RegisterFragment extends Fragment {
                                 Log.d("Register", task1.getException().toString());
                             }
 
-                        });
+                        }));
 
                     } else {
                         constraintLayout.setVisibility(View.VISIBLE);
@@ -96,7 +93,7 @@ public class RegisterFragment extends Fragment {
                         Toast.makeText(getActivity().getApplicationContext(), "Письмо не отправленно", Toast.LENGTH_SHORT).show();
                         Log.d("Register", task.getException().toString());
                     }
-                });
+                }));
             }
         });
 

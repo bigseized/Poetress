@@ -1,4 +1,4 @@
-package com.example.poetress.view_model;
+package com.example.poetress.view_model.adapters;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -9,11 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.poetress.R;
 import com.example.poetress.data.types.ProfileVerse;
-import com.example.poetress.ui.some1_profile.SomeOneProfile;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

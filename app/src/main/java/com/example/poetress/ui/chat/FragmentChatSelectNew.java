@@ -15,12 +15,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.poetress.R;
 import com.example.poetress.data.types.SimpleUserData;
 import com.example.poetress.databinding.ChatSelectNewBinding;
-import com.example.poetress.view_model.ChatMainRecyclerAdapter;
-import com.example.poetress.view_model.ChatSelectNewRecyclerAdapter;
-import com.example.poetress.view_model.ChatSelectNewViewModel;
+import com.example.poetress.view_model.adapters.ChatSelectNewRecyclerAdapter;
+import com.example.poetress.view_model.chat.ChatSelectNewViewModel;
 
 import java.util.List;
 

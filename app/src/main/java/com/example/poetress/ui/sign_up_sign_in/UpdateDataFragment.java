@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +26,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.poetress.R;
 import com.example.poetress.databinding.UpdateUserDataBinding;
-import com.example.poetress.view_model.UpdateDataViewModel;
-
-import org.checkerframework.common.returnsreceiver.qual.This;
+import com.example.poetress.view_model.profile.UpdateDataViewModel;
 
 
 public class UpdateDataFragment extends Fragment {

@@ -23,8 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.poetress.R;
 import com.example.poetress.databinding.ProfileAnotherPersonBinding;
 import com.example.poetress.ui.ImageFragment;
-import com.example.poetress.view_model.SomeOneProfileViewModel;
-import com.example.poetress.view_model.versesRecyclerAdapter;
+import com.example.poetress.view_model.feed.SomeOneProfileViewModel;
+import com.example.poetress.view_model.adapters.versesRecyclerAdapter;
 import com.squareup.picasso.Picasso;
 
 public class SomeOneProfile extends Fragment {

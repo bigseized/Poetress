@@ -23,7 +23,7 @@ import com.squareup.picasso.Picasso;
 
 public class ImageFragment extends DialogFragment {
 
-    com.example.poetress.databinding.SimpleImageFragmentBinding binding;
+    SimpleImageFragmentBinding binding;
     Uri uri;
     ImageView photoImageView;
 
